@@ -1,0 +1,18 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "next/typescript",
+    "eslint:recommended",
+    "prettier"
+  ],
+  "rules": {
+    "no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_[^_].*$|^_$",
+        "varsIgnorePattern": "^_[^_].*$|^_$",
+        "caughtErrorsIgnorePattern": "^_[^_].*$|^_$"
+      }
+    ]
+  }
+}

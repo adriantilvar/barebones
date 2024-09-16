@@ -1,2 +1,15 @@
-# barebones
-A library of UI components based on ShadCN. This is a simplified version of the ShadCN components, which do not need any CSS variable declarations to be fully-functional. Additionally, they may be slightly modified to personal taste.
+## Getting Started
+
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

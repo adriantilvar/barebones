@@ -1,0 +1,21 @@
+{
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "tailwindFunctions": ["cn"],
+  "importOrder": [
+    "^next",
+    "^@/lib/(.*)$",
+    "^@/components/(.*)$",
+    "^@/styles/(.*)$",
+    "^[./]"
+  ],
+  "importOrderCaseInsensitive": true,
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "importOrderGroupNamespaceSpecifiers": true,
+  "trailingComma": "es5",
+  "semi": true,
+  "singleAttributePerLine": true,
+  "bracketSameLine": true,
+  "bracketSpacing": true,
+  "withNodeModules": true
+}
