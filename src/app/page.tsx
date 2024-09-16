@@ -11,12 +11,12 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import FileText from "@/components/icons/file-text";
 import FolderTree from "@/components/icons/folder-tree";
-import Settings from "@/components/icons/settings";
 import ArrowRight from "@/components/icons/arrow-right";
 import ScrollTextIcon from "@/components/icons/scroll-text";
 import ListChecksIcon from "@/components/icons/list-checks";
 import ComponentIcon from "@/components/icons/component";
 import SquareFunctionIcon from "@/components/icons/square-function";
+import PackageIcon from "@/components/icons/package";
 
 const pages = [
   {
@@ -31,6 +31,12 @@ const pages = [
     name: "Files",
     icon: <FileText className="h-4 w-4" />,
     description: "Configuration files for various tools and frameworks.",
+  },
+  {
+    id: "dependencies",
+    name: "Dependencies",
+    icon: <PackageIcon className="h-4 w-4" />,
+    description: "Commands to install suggested packages and libraries.",
   },
   {
     id: "project-structure",
@@ -62,13 +68,12 @@ const pages = [
 ];
 
 export default function Home() {
+  const intro =
+    "Here you'll find a collection of tools and files designed to make life easier. Whether you're setting up a new project or looking for handy functions to quickly copy-paste, these resources are here to help.";
+
   return (
     <main className="flex-grow p-6">
-      <p>
-        Here you'll find a collection of tools and files designed to make life
-        easier. Whether you're setting up a new project or looking for handy
-        functions to quickly copy-paste, these resources are here to help.
-      </p>
+      <p>{intro}</p>
       <div className="mx-auto mt-8 max-w-6xl space-y-6">
         <ScrollArea className="h-full">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

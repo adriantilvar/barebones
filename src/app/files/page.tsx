@@ -47,6 +47,7 @@ const FilesPage = () => {
                 <CodePanel
                   headline={filename}
                   body={panelBody}
+                  isCollapsible={true}
                 />
               </li>
             );

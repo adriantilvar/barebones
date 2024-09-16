@@ -28,12 +28,27 @@ export const ESLINT_CONFIG = {
     "prettier",
   ],
   rules: {
+    "@typescript-eslint/ban-ts-comment": [
+      "error",
+      { "ts-ignore": "allow-with-description" },
+    ],
     "no-unused-vars": [
       "warn",
       {
         argsIgnorePattern: "^_[^_].*$|^_$",
         varsIgnorePattern: "^_[^_].*$|^_$",
         caughtErrorsIgnorePattern: "^_[^_].*$|^_$",
+      },
+    ],
+    "no-restricted-imports": [
+      "error",
+      {
+        patterns: [
+          {
+            group: ["./", "../"],
+            message: "Relative imports are not allowed.",
+          },
+        ],
       },
     ],
   },
