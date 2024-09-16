@@ -37,7 +37,10 @@ const Page = () => {
                   )}
                   {")"}
                 </p>
-                <CodePanel body={command} />
+                <CodePanel
+                  body={command}
+                  isInline
+                />
               </li>
             );
           })}

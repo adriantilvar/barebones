@@ -94,3 +94,64 @@ const config: Config = {
 
 export default config;
 `;
+
+export const UF_SLEEP = `export const sleep = async (ms: number) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+};`;
+
+export const UF_QUICK_ARRAY = `export const quickArray = (length: number, fillValue?: any) =>
+  Array.from({ length }, (_, i) => fillValue || i + 1);`;
+
+export const UF_SLUGIFY = `export const slugify = (text: string) =>
+  text
+    .toString()
+    .toLowerCase()
+    .trim() // Remove whitespace from both ends of a string
+    .replace(/\\s+/g, "-") // Replace spaces with -
+    .replace(/&/g, "-and-") // Replace & with 'and'
+    .replace(/[^\\w-]+/g, "") // Remove all non-word characters except for -
+    .replace(/--+/g, "-"); // Replace multiple - with single -`;
+
+export const UF_SLUG_TO_TITLE = `export const slugToTitle = (slug: string) => {
+  const exceptions = [
+    "the",
+    "and",
+    "or",
+    "but",
+    "nor",
+    "a",
+    "an",
+    "so",
+    "for",
+    "yet",
+    "at",
+    "by",
+    "from",
+    "of",
+    "on",
+    "to",
+    "with",
+    "in",
+    "up",
+    "over",
+    "as",
+  ];
+
+  const words = slug.split("-");
+
+  return words
+    .map((word, index) => {
+      if (
+        index === 0 ||
+        index === words.length - 1 ||
+        !exceptions.includes(word)
+      ) {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      } else {
+        return word;
+      }
+    })
+    .join(" ");
+};`;

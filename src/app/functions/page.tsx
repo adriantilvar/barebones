@@ -1,0 +1,57 @@
+import CodePanel from "@/components/code-panel";
+import {
+  UF_QUICK_ARRAY,
+  UF_SLEEP,
+  UF_SLUG_TO_TITLE,
+  UF_SLUGIFY,
+} from "@/lib/consts";
+
+const functions = [
+  {
+    name: "Sleep",
+    description: "Stalls execution for a specified duration in milliseconds.",
+    body: UF_SLEEP,
+  },
+  {
+    name: "Quick Array",
+    description:
+      "Generates an array of a specified length. If a value is provided, the array will be filled with that value; otherwise, it will contain consecutive numbers starting from 1.",
+    body: UF_QUICK_ARRAY,
+  },
+  {
+    name: "Slugify",
+    description: "Transforms a string into a slug.",
+    body: UF_SLUGIFY,
+  },
+  {
+    name: "Slug To Title",
+    description: "Transforms a slug string into a title case string.",
+    body: UF_SLUG_TO_TITLE,
+  },
+];
+
+const Page = () => {
+  return (
+    <main className="py-6">
+      <div className="mx-auto w-fit max-w-xl">
+        <h1 className="text-2xl font-semibold">
+          Potentially Helpful Functions
+        </h1>
+
+        <ul className="mt-6 space-y-4">
+          {functions.map(({ name, description, body }) => {
+            return (
+              <li key={description}>
+                <p className="font-medium">{name}</p>
+                <p className="text-sm">{description}</p>
+                <CodePanel body={body} />
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </main>
+  );
+};
+
+export default Page;

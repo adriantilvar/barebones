@@ -13,12 +13,14 @@ type CodePanelProps = {
   headline?: string;
   body: string;
   isCollapsible?: boolean;
+  isInline?: boolean;
 };
 
 const CodePanel = ({
   headline,
   body,
   isCollapsible = false,
+  isInline = false,
 }: CodePanelProps) => {
   const [isShowingCheck, setIsShowingCheck] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -32,18 +34,21 @@ const CodePanel = ({
   return (
     <pre
       className={cn(
-        "relative mt-2 max-w-xl overflow-scroll overflow-y-hidden rounded-lg border border-zinc-200/50 bg-zinc-50",
+        "relative mt-2 max-w-xl overflow-scroll overflow-y-hidden rounded-lg border border-zinc-200/50 bg-zinc-50 text-sm",
         {
           "h-40": isCollapsible && !isExpanded,
         }
       )}>
-      {!!headline && <p className="bg-zinc-100 p-2 text-sm">{headline}</p>}
+      {!isInline &&
+        (headline ? (
+          <p className="flex h-8 items-center border-b-zinc-200/50 bg-zinc-100 px-2">
+            {headline}
+          </p>
+        ) : (
+          <div className="h-8 border-b border-b-zinc-200/50 bg-zinc-100" />
+        ))}
 
-      <div
-        className={cn(
-          "absolute right-1 top-1 rounded-md p-1 hover:bg-zinc-300/50",
-          { "top-2": !headline }
-        )}>
+      <div className="absolute right-1 top-1 rounded-md p-1 hover:bg-zinc-300/50">
         {isShowingCheck ? (
           <CheckIcon className="h-4 w-4 text-zinc-600 hover:text-zinc-800" />
         ) : (
@@ -58,7 +63,7 @@ const CodePanel = ({
         className={cn(
           "px-2 py-2",
           { "pb-14": isCollapsible },
-          { "pr-10": !headline }
+          { "flex h-8 items-center pr-8": isInline }
         )}>
         <code>{body}</code>
       </div>

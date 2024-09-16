@@ -53,11 +53,11 @@ const pages = [
       "React components based on Lucide icons for use in UI development.",
   },
   {
-    id: "util-functions",
+    id: "functions",
     name: "Utility Functions",
     icon: <SquareFunctionIcon className="h-4 w-4" />,
     description:
-      "React components based on Lucide icons for use in UI development.",
+      "Reusable functions to help with repetitive or common operations.",
   },
   {
     id: "scripts",
