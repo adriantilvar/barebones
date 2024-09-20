@@ -1,11 +1,17 @@
-import { ESLINT_CONFIG, PRETTIER_CONFIG, TAILWIND_CONFIG } from "@/lib/consts";
+import {
+  ESLINT_CONFIG,
+  NEXT_CONFIG,
+  PRETTIER_CONFIG,
+  TAILWIND_CONFIG,
+  VSCODE_CONFIG,
+} from "@/lib/consts";
 
 import CodePanel from "@/components/code-panel";
 
 const files = [
   {
     title: "Prettier Config",
-    filename: ".prettierrc",
+    filename: ".prettierrc.json",
     content: PRETTIER_CONFIG,
     isJson: true,
   },
@@ -19,6 +25,18 @@ const files = [
     title: "Tailwind Config",
     filename: "tailwind.config.ts",
     content: TAILWIND_CONFIG,
+    isJson: false,
+  },
+  {
+    title: "VSCode Config",
+    filename: ".vscode/settings.json",
+    content: VSCODE_CONFIG,
+    isJson: true,
+  },
+  {
+    title: "Next Config",
+    filename: "next.config.mjs",
+    content: NEXT_CONFIG,
     isJson: false,
   },
 ];
@@ -48,6 +66,7 @@ const FilesPage = () => {
                   headline={filename}
                   body={panelBody}
                   isCollapsible={true}
+                  className="mt-1"
                 />
               </li>
             );

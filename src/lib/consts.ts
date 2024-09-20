@@ -1,37 +1,38 @@
 export const PRETTIER_CONFIG = {
-  plugins: ["prettier-plugin-tailwindcss"],
+  semi: true,
+  singleQuote: false,
+  tabWidth: 2,
+  trailingComma: "es5",
   tailwindFunctions: ["cn"],
   importOrder: [
-    "^next",
+    "^(react|next?/?([a-zA-z/]*))$",
+    "<THIRD_PARTY_MODULES>",
     "^@/lib/(.*)$",
     "^@/components/(.*)$",
-    "^@/styles/(.*)$",
+    "^@/(.*)$",
     "^[./]",
   ],
-  importOrderCaseInsensitive: true,
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,
+  importOrderCaseInsensitive: true,
   importOrderGroupNamespaceSpecifiers: true,
-  trailingComma: "es5",
-  semi: true,
-  singleAttributePerLine: true,
-  bracketSameLine: true,
-  bracketSpacing: true,
-  withNodeModules: true,
+  plugins: [
+    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss",
+  ],
 };
 
 export const ESLINT_CONFIG = {
-  extends: [
-    "next/core-web-vitals",
-    "next/typescript",
-    "eslint:recommended",
-    "prettier",
-  ],
+  extends: ["next/core-web-vitals", "next/typescript", "prettier"],
+  plugins: ["check-file"],
   rules: {
     "@typescript-eslint/ban-ts-comment": [
       "error",
       { "ts-ignore": "allow-with-description" },
     ],
+    "prefer-arrow-callback": ["error"],
+    "prefer-template": ["error"],
+    quotes: ["error", "double"],
     "no-unused-vars": [
       "warn",
       {
@@ -49,6 +50,21 @@ export const ESLINT_CONFIG = {
             message: "Relative imports are not allowed.",
           },
         ],
+      },
+    ],
+    "check-file/filename-naming-convention": [
+      "error",
+      {
+        "**/*.{ts,tsx}": "KEBAB_CASE",
+      },
+      {
+        ignoreMiddleExtensions: true, // for stuff like next.config.mjs
+      },
+    ],
+    "check-file/folder-naming-convention": [
+      "error",
+      {
+        "src/**": "KEBAB_CASE",
       },
     ],
   },
@@ -93,6 +109,32 @@ const config: Config = {
 };
 
 export default config;
+`;
+
+export const VSCODE_CONFIG = {
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "always",
+    "source.organizeImports": "always",
+  },
+  "workbench.editor.customLabels.patterns": {
+    "**/app/**/page.tsx": "${dirname} (page)",
+    "**/app/**/layout.tsx": "${dirname} (layout)",
+  },
+  "files.associations": {
+    "*.css": "tailwindcss",
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+};
+
+export const NEXT_CONFIG = `/** @type {import('next').NextConfig} */
+const nextConfig = {
+  experimental: {
+    typedRoutes: true,
+  },
+};
+
+export default nextConfig;
 `;
 
 export const UF_SLEEP = `export const sleep = async (ms: number) => {

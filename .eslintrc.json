@@ -1,15 +1,14 @@
 {
-  "extends": [
-    "next/core-web-vitals",
-    "next/typescript",
-    "eslint:recommended",
-    "prettier"
-  ],
+  "extends": ["next/core-web-vitals", "next/typescript", "prettier"],
+  "plugins": ["check-file"],
   "rules": {
     "@typescript-eslint/ban-ts-comment": [
       "error",
       { "ts-ignore": "allow-with-description" }
     ],
+    "prefer-arrow-callback": ["error"],
+    "prefer-template": ["error"],
+    "quotes": ["error", "double"],
     "no-unused-vars": [
       "warn",
       {
@@ -27,6 +26,21 @@
             "message": "Relative imports are not allowed."
           }
         ]
+      }
+    ],
+    "check-file/filename-naming-convention": [
+      "error",
+      {
+        "**/*.{ts,tsx}": "KEBAB_CASE"
+      },
+      {
+        "ignoreMiddleExtensions": true // for stuff like next.config.mjs
+      }
+    ],
+    "check-file/folder-naming-convention": [
+      "error",
+      {
+        "src/**": "KEBAB_CASE"
       }
     ]
   }
