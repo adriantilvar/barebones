@@ -1,22 +1,22 @@
 import Link from "next/link";
 
+import ArrowRight from "@/components/icons/arrow-right";
+import FileText from "@/components/icons/file-text";
+import FolderTree from "@/components/icons/folder-tree";
+import ListChecksIcon from "@/components/icons/list-checks";
+import PackageIcon from "@/components/icons/package";
+import ScrollTextIcon from "@/components/icons/scroll-text";
+import SquareFunctionIcon from "@/components/icons/square-function";
+import StarIcon from "@/components/icons/start";
 import { Button } from "@/components/ui/button";
 import {
   Card,
+  CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
 } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import FileText from "@/components/icons/file-text";
-import FolderTree from "@/components/icons/folder-tree";
-import ArrowRight from "@/components/icons/arrow-right";
-import ScrollTextIcon from "@/components/icons/scroll-text";
-import ListChecksIcon from "@/components/icons/list-checks";
-import ComponentIcon from "@/components/icons/component";
-import SquareFunctionIcon from "@/components/icons/square-function";
-import PackageIcon from "@/components/icons/package";
 
 const pages = [
   {
@@ -46,13 +46,6 @@ const pages = [
       "Recommended directory structures and organization for projects.",
   },
   {
-    id: "icon-components",
-    name: "Icon Components",
-    icon: <ComponentIcon className="h-4 w-4" />,
-    description:
-      "React components based on Lucide icons for use in UI development.",
-  },
-  {
     id: "functions",
     name: "Utility Functions",
     icon: <SquareFunctionIcon className="h-4 w-4" />,
@@ -64,6 +57,12 @@ const pages = [
     name: "Scripts",
     icon: <ScrollTextIcon className="h-4 w-4" />,
     description: "Helpful scripts for automation and development tasks.",
+  },
+  {
+    id: "tricks",
+    name: "Cool Tricks",
+    icon: <StarIcon className="h-4 w-4" />,
+    description: "Cool stuff that you can do in your apps.",
   },
 ];
 
@@ -87,12 +86,8 @@ export default function Home() {
                   <CardDescription>{description}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Link
-                    href={`/${id}`}
-                    passHref>
-                    <Button
-                      className="group w-full"
-                      variant="outline">
+                  <Link href={{ pathname: `/${id}` }} passHref>
+                    <Button className="group w-full" variant="outline">
                       Explore {name}
                       <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </Button>

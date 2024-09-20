@@ -1,10 +1,11 @@
-import CodePanel from "@/components/code-panel";
 import {
   UF_QUICK_ARRAY,
   UF_SLEEP,
   UF_SLUG_TO_TITLE,
   UF_SLUGIFY,
 } from "@/lib/consts";
+
+import CodePanel from "@/components/code-panel";
 
 const functions = [
   {
@@ -38,13 +39,13 @@ const Page = () => {
           Potentially Helpful Functions
         </h1>
 
-        <ul className="mt-6 space-y-4">
+        <ul className="mt-6 space-y-6">
           {functions.map(({ name, description, body }) => {
             return (
               <li key={description}>
                 <p className="font-medium">{name}</p>
-                <p className="text-sm">{description}</p>
-                <CodePanel body={body} />
+                <p className="mt-1 text-sm">{description}</p>
+                <CodePanel body={body} className="mt-1" />
               </li>
             );
           })}
