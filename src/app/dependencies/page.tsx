@@ -51,46 +51,44 @@ const Page = () => {
   }, "npm install --save-dev");
 
   return (
-    <main className="py-6">
-      <div className="mx-auto w-fit">
-        <h1 className="text-2xl font-semibold">Quick Setup Commands</h1>
+    <div className="mx-auto w-fit">
+      <h1 className="text-2xl font-semibold">Quick Setup Commands</h1>
 
-        <div className="mt-6">
-          <p className="text-base font-semibold">
-            {"Going all in? Here's the all-in-one:"}
-          </p>
-          <CodePanel body={allInOneCommand} className="mt-1" />
-        </div>
-
-        <ul className="mt-6 space-y-6">
-          <p className="text-base font-semibold">
-            {"Not sure you need everything? Take them one by one:"}
-          </p>
-          {dependencies.map(({ description, source, command }) => {
-            const hasSource = source.text && source.link;
-
-            return (
-              <li key={description}>
-                <p className="text-base font-medium">
-                  {description}
-                  {" ("}
-                  {hasSource && (
-                    <Link
-                      className="hover:text-blue-800 hover:underline"
-                      href={{ pathname: source.link }}
-                    >
-                      {source.text}
-                    </Link>
-                  )}
-                  {")"}
-                </p>
-                <CodePanel body={command} isInline className="mt-1" />
-              </li>
-            );
-          })}
-        </ul>
+      <div className="mt-6">
+        <p className="text-base font-semibold">
+          {"Going all in? Here's the all-in-one:"}
+        </p>
+        <CodePanel body={allInOneCommand} className="mt-1" />
       </div>
-    </main>
+
+      <ul className="mt-6 space-y-6">
+        <p className="text-base font-semibold">
+          {"Not sure you need everything? Take them one by one:"}
+        </p>
+        {dependencies.map(({ description, source, command }) => {
+          const hasSource = source.text && source.link;
+
+          return (
+            <li key={description}>
+              <p className="text-base font-medium">
+                {description}
+                {" ("}
+                {hasSource && (
+                  <Link
+                    className="hover:text-blue-800 hover:underline"
+                    href={{ pathname: source.link }}
+                  >
+                    {source.text}
+                  </Link>
+                )}
+                {")"}
+              </p>
+              <CodePanel body={command} isInline className="mt-1" />
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 };
 

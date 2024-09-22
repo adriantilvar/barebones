@@ -1,5 +1,77 @@
-const Page = () => {
-  return <div>Page is empty for now.</div>;
+"use client";
+
+import { useState } from "react";
+
+import { cn } from "@/lib/utils";
+
+import { Checkbox } from "@/components/ui/checkbox";
+import { Progress } from "@/components/ui/progress";
+
+type Task = {
+  id: number;
+  text: string;
+  isCompleted: boolean;
 };
 
-export default Page;
+const defaultTasks = [
+  { id: 1, text: "Create repository", isCompleted: false },
+  { id: 2, text: "Create project using CLI", isCompleted: false },
+  { id: 3, text: "Install dependencies", isCompleted: false },
+  { id: 4, text: "Configure tooling files", isCompleted: false },
+  { id: 4, text: "Set up working with environment variables", isCompleted: false },
+
+];
+
+const ToDoPage = () => {
+  const [tasks, setTasks] = useState<Task[]>(defaultTasks);
+
+  const toggleTask = (id: number) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, isCompleted: !task.isCompleted } : task
+      )
+    );
+  };
+
+  const completedTasks = tasks.filter((task) => task.isCompleted).length;
+  const progress = (completedTasks / tasks.length) * 100;
+
+  return (
+    <div className="mx-auto flex h-full max-w-2xl flex-col text-zinc-900">
+      <h1 className="text-2xl font-semibold">Project Starting Checklist</h1>
+
+      <ul className="mt-6 space-y-4">
+        {tasks.map(({ id, text, isCompleted }) => (
+          <li key={id} className="flex items-center space-x-2">
+            <Checkbox
+              id={`task-${id}`}
+              checked={isCompleted}
+              onCheckedChange={() => toggleTask(id)}
+            />
+            <label
+              htmlFor={`task-${id}`}
+              className={cn(
+                "leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+                {
+                  "text-zinc-400 line-through": isCompleted,
+                }
+              )}
+            >
+              {text}
+            </label>
+          </li>
+        ))}
+      </ul>
+
+      <div className="mt-auto">
+        <Progress value={progress} />
+
+        <p className="mt-2 text-sm">
+          {completedTasks} of {tasks.length} tasks completed
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default ToDoPage;

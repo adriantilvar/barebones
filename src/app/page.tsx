@@ -8,6 +8,7 @@ import PackageIcon from "@/components/icons/package";
 import ScrollTextIcon from "@/components/icons/scroll-text";
 import SquareFunctionIcon from "@/components/icons/square-function";
 import StarIcon from "@/components/icons/start";
+import WrenchIcon from "@/components/icons/wrench";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -46,6 +47,12 @@ const pages = [
       "Recommended directory structures and organization for projects.",
   },
   {
+    id: "setups",
+    name: "Setups",
+    icon: <WrenchIcon className="h-4 w-4" />,
+    description: "Quick guides on how to set different things up",
+  },
+  {
     id: "functions",
     name: "Utility Functions",
     icon: <SquareFunctionIcon className="h-4 w-4" />,
@@ -71,13 +78,14 @@ export default function Home() {
     "Here you'll find a collection of tools and files designed to make life easier. Whether you're setting up a new project or looking for handy functions to quickly copy-paste, these resources are here to help.";
 
   return (
-    <main className="flex-grow p-6">
-      <p>{intro}</p>
-      <div className="mx-auto mt-8 max-w-6xl space-y-6">
+    <>
+      <h1 className="text-3xl font-semibold">Barebones</h1>
+      <p className="mt-2">{intro}</p>
+      <div className="mx-auto mt-4 max-w-6xl space-y-6">
         <ScrollArea className="h-full">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {pages.map(({ id, name, icon, description }) => (
-              <Card key={id}>
+              <Card key={id} className="h-40">
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     {icon}
@@ -98,6 +106,6 @@ export default function Home() {
           </div>
         </ScrollArea>
       </div>
-    </main>
+    </>
   );
 }

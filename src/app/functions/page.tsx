@@ -33,25 +33,21 @@ const functions = [
 
 const Page = () => {
   return (
-    <main className="py-6">
-      <div className="mx-auto w-fit max-w-xl">
-        <h1 className="text-2xl font-semibold">
-          Potentially Helpful Functions
-        </h1>
+    <div className="mx-auto w-fit max-w-xl">
+      <h1 className="text-2xl font-semibold">Potentially Helpful Functions</h1>
 
-        <ul className="mt-6 space-y-6">
-          {functions.map(({ name, description, body }) => {
-            return (
-              <li key={description}>
-                <p className="font-medium">{name}</p>
-                <p className="mt-1 text-sm">{description}</p>
-                <CodePanel body={body} className="mt-1" />
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    </main>
+      <ul className="mt-6 space-y-6">
+        {functions.map(({ name, description, body }) => {
+          return (
+            <li key={description}>
+              <p className="font-medium">{name}</p>
+              <p className="mt-1 text-sm">{description}</p>
+              <CodePanel body={body} className="mt-1" />
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 };
 

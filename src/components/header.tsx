@@ -1,4 +1,5 @@
 import Link from "next/link";
+
 import { ClassValue } from "clsx";
 
 import { cn } from "@/lib/utils";
@@ -13,11 +14,13 @@ const Header = ({ className }: HeaderProps) => {
       className={cn(
         "z-50 flex items-center border-b border-zinc-200 bg-white shadow shadow-zinc-200/50",
         className
-      )}>
-      <div className="flex gap-x-4">
+      )}
+    >
+      <div className="flex">
         <Link
           className="rounded-md border border-dashed p-2 text-gray-900"
-          href="/">
+          href="/"
+        >
           barebones
         </Link>
       </div>
