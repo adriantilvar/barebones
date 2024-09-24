@@ -9,7 +9,7 @@ const dependencies = [
       text: "prettier",
       link: "https://github.com/prettier/prettier",
     },
-    command: "npm install --save-dev prettier",
+    command: "pnpm add -D prettier",
   },
   {
     description: "Tailwind Prettier Plugin",
@@ -17,7 +17,7 @@ const dependencies = [
       text: "prettier-plugin-tailwindcss",
       link: "https://github.com/tailwindlabs/prettier-plugin-tailwindcss",
     },
-    command: "npm install --save-dev prettier-plugin-tailwindcss",
+    command: "pnpm add -D prettier-plugin-tailwindcss",
   },
   {
     description: "ESLint configuration with Prettier",
@@ -25,7 +25,7 @@ const dependencies = [
       text: "eslint-config-prettier",
       link: "https://github.com/prettier/eslint-config-prettier",
     },
-    command: "npm install --save-dev eslint-config-prettier",
+    command: "pnpm add -D eslint-config-prettier",
   },
   {
     description: "Import Order Sort Plugin",
@@ -33,7 +33,7 @@ const dependencies = [
       text: "@trivago/prettier-plugin-sort-imports",
       link: "https://github.com/trivago/prettier-plugin-sort-imports",
     },
-    command: "npm install --save-dev @trivago/prettier-plugin-sort-imports",
+    command: "pnpm add -D @trivago/prettier-plugin-sort-imports",
   },
   {
     description: "File Checking Plugin",
@@ -41,14 +41,22 @@ const dependencies = [
       text: "eslint-plugin-check-file",
       link: "https://github.com/dukeluo/eslint-plugin-check-file",
     },
-    command: "npm install --save-dev eslint-plugin-check-file",
+    command: "pnpm add -D eslint-plugin-check-file",
+  },
+  {
+    description: "Prevent using 'process.env' directly",
+    source: {
+      text: "eslint-plugin-n",
+      link: "https://github.com/eslint-community/eslint-plugin-n",
+    },
+    command: "pnpm add -D eslint-plugin-n",
   },
 ];
 
 const Page = () => {
   const allInOneCommand = dependencies.reduce((previous, current) => {
     return `${previous} ${current.source.text}`;
-  }, "npm install --save-dev");
+  }, "pnpm add -D");
 
   return (
     <div className="mx-auto w-fit">

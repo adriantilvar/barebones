@@ -24,7 +24,7 @@ export const PRETTIER_CONFIG = {
 
 export const ESLINT_CONFIG = {
   extends: ["next/core-web-vitals", "next/typescript", "prettier"],
-  plugins: ["check-file"],
+  plugins: ["check-file", "n"],
   rules: {
     "@typescript-eslint/ban-ts-comment": [
       "error",
@@ -64,9 +64,11 @@ export const ESLINT_CONFIG = {
     "check-file/folder-naming-convention": [
       "error",
       {
-        "src/**": "KEBAB_CASE",
+        // Everything should be kebab-case, except for dynamic routes
+        "src/**/!^[.*": "KEBAB_CASE",
       },
     ],
+    "n/no-process-env": ["error"],
   },
 };
 
@@ -197,6 +199,63 @@ export const UF_SLUG_TO_TITLE = `export const slugToTitle = (slug: string) => {
     })
     .join(" ");
 };`;
+
+export const G_T3_ENV_SERVER = `import { createEnv } from "@t3-oss/env-nextjs";
+import { z } from "zod";
+ 
+export const env = createEnv({
+  server: {
+    NODE_ENV: z.enum(["development", "production"]),
+    GOOGLE_CLIENT_ID: z.string(),
+    GOOGLE_CLIENT_SECRET: z.string()
+  },
+  onValidationError: (error: ZodError) => {
+    console.error(
+      "Invalid environment variables:",
+      error.flatten().fieldErrors
+    );
+    process.exit(1)
+  },
+  emptyStringsAsUndefined: true,
+  experimental__runtimeEnv: process.env
+});`;
+
+export const G_T3_NEXT_CONFIG = `import { fileURLToPath } from "node:url";
+import createJiti from "jiti";
+
+const jiti = createJiti(fileURLToPath(import.meta.url));
+ 
+// Validate env during build
+jiti("./app/env");
+ 
+/** @type {import('next').NextConfig} */
+export default {
+  /** ... */
+};`;
+
+export const G_NEXT_AUTH_ROUTE_HANDLER = `import NextAuth from "next-auth"
+
+import options from "@/config/auth";
+
+const handler = NextAuth(options);
+
+export { handler as GET, handler as POST }`;
+
+export const G_NEXT_AUTH_CONFIG = `import { NextAuthOptions } from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
+
+import { env } from "@/env/server";
+
+const options: NextAuthOptions = {
+  providers: [
+    GoogleProvider({
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET
+    })
+  ]
+}
+  
+export default options;`;
 
 export const CT_EMOJI_FAVICON = `<head>
   <link

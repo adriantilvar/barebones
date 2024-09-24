@@ -45,16 +45,19 @@ const CodePanel = ({
     >
       {!isInline &&
         (headline ? (
-          <p className="flex h-8 items-center border-b-zinc-200/50 bg-zinc-100 px-2 font-mono text-xs">
+          <p className="flex h-8 items-center border-b-zinc-200 bg-zinc-200 px-2 font-mono text-xs">
             {headline}
           </p>
         ) : (
-          <div className="h-8 border-b border-b-zinc-200/50 bg-zinc-100" />
+          <div className="h-8 border-b border-b-zinc-200 bg-zinc-200" />
         ))}
 
       <Button
         variant="ghost"
-        className="absolute right-1 top-1 z-10 h-fit w-fit p-1 hover:bg-zinc-200/50"
+        className={cn(
+          "absolute right-1 top-1 z-10 h-fit w-fit p-1 hover:bg-zinc-300",
+          { "hover:bg-zinc-200/75": isInline }
+        )}
         onClick={() => !isShowingCheck && copyToClipboard(body)}
       >
         {isShowingCheck ? (
