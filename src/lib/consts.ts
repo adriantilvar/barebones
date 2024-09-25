@@ -127,6 +127,7 @@ export const VSCODE_CONFIG = {
     "*.css": "tailwindcss",
   },
   "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
 };
 
 export const NEXT_CONFIG = `/** @type {import('next').NextConfig} */
