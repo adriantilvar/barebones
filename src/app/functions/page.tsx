@@ -3,6 +3,7 @@ import {
   UF_SLEEP,
   UF_SLUG_TO_TITLE,
   UF_SLUGIFY,
+  UF_TO_CAMEL_CASE,
 } from "@/lib/consts";
 
 import CodePanel from "@/components/code-panel";
@@ -21,8 +22,13 @@ const functions = [
   },
   {
     name: "Slugify",
-    description: "Transforms a string into a slug.",
+    description: "Transforms a string into a 'slug'.",
     body: UF_SLUGIFY,
+  },
+  {
+    name: "Transform Slug to Camel Case",
+    description: "Transforms a string into a camelCase string.",
+    body: UF_TO_CAMEL_CASE,
   },
   {
     name: "Slug To Title",

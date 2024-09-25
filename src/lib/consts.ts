@@ -159,6 +159,21 @@ export const UF_SLUGIFY = `export const slugify = (text: string) =>
     .replace(/[^\\w-]+/g, "") // Remove all non-word characters except for -
     .replace(/--+/g, "-"); // Replace multiple - with single -`;
 
+export const UF_TO_CAMEL_CASE = `export const toCamelCase = (slug: string) => {
+  const regex = /^[a-z-]+$/;
+
+  if (!regex.test(slug)) {
+    throw new Error("Invalid slug");
+  }
+
+  return slug
+    .split("-")
+    .map((word, index) =>
+      index ? word.charAt(0).toUpperCase() + word.slice(1) : word
+    )
+    .join("");
+};`;
+
 export const UF_SLUG_TO_TITLE = `export const slugToTitle = (slug: string) => {
   const exceptions = [
     "the",
