@@ -17,9 +17,13 @@ const defaultTasks = [
   { id: 1, text: "Create repository", isCompleted: false },
   { id: 2, text: "Create project using CLI", isCompleted: false },
   { id: 3, text: "Install dependencies", isCompleted: false },
-  { id: 4, text: "Configure tooling files", isCompleted: false },
-  { id: 4, text: "Set up working with environment variables", isCompleted: false },
-
+  { id: 4, text: "Configure tooling", isCompleted: false },
+  {
+    id: 5,
+    text: "Set up working with environment variables",
+    isCompleted: false,
+  },
+  { id: 6, text: "Deploy app", isCompleted: false },
 ];
 
 const ToDoPage = () => {
