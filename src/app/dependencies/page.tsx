@@ -20,6 +20,14 @@ const dependencies = [
     command: "pnpm add -D prettier-plugin-tailwindcss",
   },
   {
+    description: "Tailwind Animate Plugin",
+    source: {
+      text: "tailwindcss-animate",
+      link: "https://github.com/jamiebuilds/tailwindcss-animate",
+    },
+    command: "pnpm add -D tailwindcss-animate",
+  },
+  {
     description: "ESLint configuration with Prettier",
     source: {
       text: "eslint-config-prettier",
