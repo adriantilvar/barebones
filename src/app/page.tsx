@@ -50,7 +50,7 @@ const pages = [
     id: "setups",
     name: "Setups",
     icon: <WrenchIcon className="h-4 w-4" />,
-    description: "Quick guides on how to set different things up",
+    description: "Quick guides on how to set different, common things up. ",
   },
   {
     id: "functions",
