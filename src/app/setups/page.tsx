@@ -2,7 +2,8 @@ import {
   G_NEXT_AUTH_CONFIG,
   G_NEXT_AUTH_ROUTE_HANDLER,
   G_T3_ENV_SERVER,
-  G_T3_NEXT_CONFIG,
+  G_T3_NEXT_CONFIG_JS,
+  G_T3_NEXT_CONFIG_TS,
 } from "@/lib/consts";
 
 import CodePanel from "@/components/code-panel";
@@ -25,9 +26,15 @@ const guides = [
         isInline: false,
       },
       {
-        name: "Modify Next config:",
+        name: "Import env/server.ts to validate the environment variables",
+        headline: "next.config.ts",
+        code: G_T3_NEXT_CONFIG_TS,
+        isInline: false,
+      },
+      {
+        name: "IF you are using next.config.mjs, you can do it like this",
         headline: "next.config.mjs",
-        code: G_T3_NEXT_CONFIG,
+        code: G_T3_NEXT_CONFIG_JS,
         isInline: false,
       },
       {

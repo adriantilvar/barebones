@@ -56,11 +56,9 @@ export default [
           "ts-ignore": "allow-with-description",
         },
       ],
-
       "prefer-arrow-callback": ["error"],
       "prefer-template": ["error"],
       quotes: ["error", "double"],
-
       "no-unused-vars": [
         "warn",
         {
@@ -69,7 +67,6 @@ export default [
           caughtErrorsIgnorePattern: "^_[^_].*$|^_$",
         },
       ],
-
       "no-restricted-imports": [
         "error",
         {
@@ -90,14 +87,12 @@ export default [
           ignoreMiddleExtensions: true,
         },
       ],
-
       "check-file/folder-naming-convention": [
         "error",
         {
           "src/**/!^[.*": "KEBAB_CASE",
         },
       ],
-
       "n/no-process-env": ["error"],
     },
   },
@@ -238,27 +233,37 @@ export const UF_SLUG_TO_TITLE = `export const slugToTitle = (slug: string) => {
     .join(" ");
 };`;
 
-export const G_T3_ENV_SERVER = `import { createEnv } from "@t3-oss/env-nextjs";
-import { z } from "zod";
- 
+export const G_T3_ENV_SERVER = `/* eslint-disable n/no-process-env */
+import { createEnv } from "@t3-oss/env-nextjs";
+import { z, type ZodError } from "zod";
+
 export const env = createEnv({
   server: {
     NODE_ENV: z.enum(["development", "production"]),
-    GOOGLE_CLIENT_ID: z.string(),
-    GOOGLE_CLIENT_SECRET: z.string()
   },
   onValidationError: (error: ZodError) => {
     console.error(
       "Invalid environment variables:",
       error.flatten().fieldErrors
     );
-    process.exit(1)
+    process.exit(1);
   },
-  emptyStringsAsUndefined: true,
-  experimental__runtimeEnv: process.env
-});`;
+  experimental__runtimeEnv: process.env,
+});
+`;
 
-export const G_T3_NEXT_CONFIG = `import { fileURLToPath } from "node:url";
+export const G_T3_NEXT_CONFIG_TS = `import type { NextConfig } from "next";
+
+import "@/env/server.ts";
+
+const nextConfig: NextConfig = {
+  /* config options here */
+};
+
+export default nextConfig;
+`;
+
+export const G_T3_NEXT_CONFIG_JS = `import { fileURLToPath } from "node:url";
 import createJiti from "jiti";
 
 const jiti = createJiti(fileURLToPath(import.meta.url));
