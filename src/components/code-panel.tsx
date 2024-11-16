@@ -39,7 +39,7 @@ const CodePanel = ({
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-lg border bg-zinc-50",
+        "relative overflow-hidden rounded-lg border bg-zinc-50 shadow-sm",
         className
       )}
     >

@@ -19,56 +19,56 @@ import {
 } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-const pages = [
+const sections = [
   {
     id: "todo-list",
     name: "To-Do List",
-    icon: <ListChecksIcon className="h-4 w-4" />,
+    icon: ListChecksIcon,
     description:
       "A checklist of common tasks and steps for setting up a project.",
   },
   {
     id: "files",
     name: "Files",
-    icon: <FileText className="h-4 w-4" />,
+    icon: FileText,
     description: "Configuration files for various tools and frameworks.",
   },
   {
     id: "dependencies",
     name: "Dependencies",
-    icon: <PackageIcon className="h-4 w-4" />,
+    icon: PackageIcon,
     description: "Commands to install suggested packages and libraries.",
   },
   {
     id: "project-structure",
     name: "Project Structure",
-    icon: <FolderTree className="h-4 w-4" />,
+    icon: FolderTree,
     description:
       "Recommended directory structures and organization for projects.",
   },
   {
     id: "setups",
     name: "Setups",
-    icon: <WrenchIcon className="h-4 w-4" />,
+    icon: WrenchIcon,
     description: "Quick guides on how to set different, common things up. ",
   },
   {
     id: "functions",
     name: "Utility Functions",
-    icon: <SquareFunctionIcon className="h-4 w-4" />,
+    icon: SquareFunctionIcon,
     description:
       "Reusable functions to help with repetitive or common operations.",
   },
   {
     id: "scripts",
     name: "Scripts",
-    icon: <ScrollTextIcon className="h-4 w-4" />,
+    icon: ScrollTextIcon,
     description: "Helpful scripts for automation and development tasks.",
   },
   {
     id: "tricks",
     name: "Cool Tricks",
-    icon: <StarIcon className="h-4 w-4" />,
+    icon: StarIcon,
     description:
       "Cool stuff that you can do in your apps. They are mostly gimmicks.",
   },
@@ -84,19 +84,19 @@ export default function Home() {
       <div className="mx-auto mt-4 max-w-6xl flex-1 space-y-6">
         <ScrollArea className="h-full">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {pages.map(({ id, name, icon, description }) => (
-              <Card key={id} className="h-44">
+            {sections.map((section) => (
+              <Card key={section.id} className="h-44">
                 <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    {icon}
-                    <span>{name}</span>
+                  <CardTitle className="flex items-center space-x-1 text-lg">
+                    <section.icon className="h-4 w-4 text-zinc-800/80" />
+                    <span>{section.name}</span>
                   </CardTitle>
-                  <CardDescription>{description}</CardDescription>
+                  <CardDescription>{section.description}</CardDescription>
                 </CardHeader>
                 <CardContent className="mt-auto">
-                  <Link href={{ pathname: `/${id}` }} passHref>
+                  <Link href={{ pathname: `/${section.id}` }} passHref>
                     <Button className="group w-full" variant="outline">
-                      Explore {name}
+                      Explore {section.name}
                       <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </Button>
                   </Link>

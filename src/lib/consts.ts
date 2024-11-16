@@ -300,6 +300,68 @@ const options: NextAuthOptions = {
   
 export default options;`;
 
+export const SETUP_GUIDES = [
+  {
+    title: "Working with Type-Safe Environment Variables",
+    slug: "type-safe-env-variables",
+    description:
+      "Next.js loads up environment variables out of the box, but it's possible that you may be missing some of them while running the application, or you may need a specific type. By using a tool like t3-env, you can prevent some annoying issues that come from working with the environment variables.",
+    steps: [
+      {
+        name: "Installing the dependencies",
+        code: "pnpm add @t3-oss/env-nextjs zod",
+        isInline: true,
+      },
+      {
+        name: "Create server schema:",
+        headline: "env/server.ts",
+        code: G_T3_ENV_SERVER,
+        isInline: false,
+      },
+      {
+        name: "Import env/server.ts to validate the environment variables",
+        headline: "next.config.ts",
+        code: G_T3_NEXT_CONFIG_TS,
+        isInline: false,
+      },
+      {
+        name: "IF you are using next.config.mjs, you can do it like this",
+        headline: "next.config.mjs",
+        code: G_T3_NEXT_CONFIG_JS,
+        isInline: false,
+      },
+      {
+        name: "Prevent using 'process.env' in the code with 'eslint-plugin-n'.",
+      },
+    ],
+  },
+  {
+    title: "Setting up authentication with Auth.js (previously NextAuth.js)",
+    slug: "auth-js-setup",
+    description:
+      "This is the most popular authentication library in the Next.js ecosystem. It is open-source and completely free. There are other popular paid, hosted services out there, which provide out-of-the-box solutions for fancy things like one-click email login, and more. But the drawback is that they typically charge more when the number of active users start increasing in your app.",
+    steps: [
+      {
+        name: "Installing the dependency:",
+        code: "pnpm add next-auth",
+        isInline: true,
+      },
+      {
+        name: "Initialize NextAuth using route handlers:",
+        headline: "/app/api/auth/[...nextauth]/route.ts",
+        code: G_NEXT_AUTH_ROUTE_HANDLER,
+        isInline: false,
+      },
+      {
+        name: "Create a config file for supporting Google login:",
+        headline: "/config/auth.ts",
+        code: G_NEXT_AUTH_CONFIG,
+        isInline: false,
+      },
+    ],
+  },
+];
+
 export const CT_EMOJI_FAVICON = `<head>
   <link
     rel="icon"
