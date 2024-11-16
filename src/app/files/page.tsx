@@ -1,6 +1,5 @@
 import {
   ESLINT_CONFIG,
-  NEXT_CONFIG,
   PRETTIER_CONFIG,
   TAILWIND_CONFIG,
   VSCODE_CONFIG,
@@ -10,6 +9,12 @@ import CodePanel from "@/components/code-panel";
 
 const files = [
   {
+    title: "VSCode Config",
+    filename: ".vscode/settings.json",
+    content: VSCODE_CONFIG,
+    isJson: true,
+  },
+  {
     title: "Prettier Config",
     filename: ".prettierrc.json",
     content: PRETTIER_CONFIG,
@@ -17,9 +22,9 @@ const files = [
   },
   {
     title: "ESLint Config",
-    filename: ".eslintrc.json",
+    filename: "eslint.config.mjs",
     content: ESLINT_CONFIG,
-    isJson: true,
+    isJson: false,
   },
   {
     title: "Tailwind Config",
@@ -27,23 +32,11 @@ const files = [
     content: TAILWIND_CONFIG,
     isJson: false,
   },
-  {
-    title: "VSCode Config",
-    filename: ".vscode/settings.json",
-    content: VSCODE_CONFIG,
-    isJson: true,
-  },
-  {
-    title: "Next Config",
-    filename: "next.config.mjs",
-    content: NEXT_CONFIG,
-    isJson: false,
-  },
 ];
 
 const FilesPage = () => {
   return (
-    <div className="mx-auto w-fit">
+    <main className="mx-auto w-fit py-8">
       <h1 className="text-2xl font-semibold">Quick Setup Files</h1>
 
       <ul className="mt-6 space-y-4">
@@ -69,7 +62,7 @@ const FilesPage = () => {
           );
         })}
       </ul>
-    </div>
+    </main>
   );
 };
 

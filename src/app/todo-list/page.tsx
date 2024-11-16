@@ -41,7 +41,7 @@ const ToDoPage = () => {
   const progress = (completedTasks / tasks.length) * 100;
 
   return (
-    <div className="mx-auto flex h-full max-w-2xl flex-col text-zinc-900">
+    <main className="mx-auto flex h-full max-w-2xl flex-col py-8 text-zinc-900">
       <h1 className="text-2xl font-semibold">Project Starting Checklist</h1>
 
       <ul className="mt-6 space-y-4">
@@ -74,7 +74,7 @@ const ToDoPage = () => {
           {completedTasks} of {tasks.length} tasks completed
         </p>
       </div>
-    </div>
+    </main>
   );
 };
 

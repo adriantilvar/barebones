@@ -63,7 +63,7 @@ const guides = [
 
 const Page = () => {
   return (
-    <div className="mx-auto max-w-2xl">
+    <main className="mx-auto w-fit max-w-2xl py-8">
       <h1 className="text-2xl font-semibold">Setup Guides</h1>
 
       <div className="col mt-6 flex flex-col gap-y-6">
@@ -92,7 +92,7 @@ const Page = () => {
           </section>
         ))}
       </div>
-    </div>
+    </main>
   );
 };
 

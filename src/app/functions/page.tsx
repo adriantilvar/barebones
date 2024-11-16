@@ -39,7 +39,7 @@ const functions = [
 
 const Page = () => {
   return (
-    <div className="mx-auto w-fit max-w-xl">
+    <main className="mx-auto w-fit max-w-xl py-8">
       <h1 className="text-2xl font-semibold">Potentially Helpful Functions</h1>
 
       <ul className="mt-6 space-y-6">
@@ -53,7 +53,7 @@ const Page = () => {
           );
         })}
       </ul>
-    </div>
+    </main>
   );
 };
 

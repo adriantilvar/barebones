@@ -22,55 +22,87 @@ export const PRETTIER_CONFIG = {
   ],
 };
 
-export const ESLINT_CONFIG = {
-  extends: ["next/core-web-vitals", "next/typescript", "prettier"],
-  plugins: ["check-file", "n"],
-  rules: {
-    "@typescript-eslint/ban-ts-comment": [
-      "error",
-      { "ts-ignore": "allow-with-description" },
-    ],
-    "prefer-arrow-callback": ["error"],
-    "prefer-template": ["error"],
-    quotes: ["error", "double"],
-    "no-unused-vars": [
-      "warn",
-      {
-        argsIgnorePattern: "^_[^_].*$|^_$",
-        varsIgnorePattern: "^_[^_].*$|^_$",
-        caughtErrorsIgnorePattern: "^_[^_].*$|^_$",
-      },
-    ],
-    "no-restricted-imports": [
-      "error",
-      {
-        patterns: [
-          {
-            group: ["./", "../"],
-            message: "Relative imports are not allowed.",
-          },
-        ],
-      },
-    ],
-    "check-file/filename-naming-convention": [
-      "error",
-      {
-        "**/*.{ts,tsx}": "KEBAB_CASE",
-      },
-      {
-        ignoreMiddleExtensions: true, // for stuff like next.config.mjs
-      },
-    ],
-    "check-file/folder-naming-convention": [
-      "error",
-      {
-        // Everything should be kebab-case, except for dynamic routes
-        "src/**/!^[.*": "KEBAB_CASE",
-      },
-    ],
-    "n/no-process-env": ["error"],
+export const ESLINT_CONFIG = `import { FlatCompat } from "@eslint/eslintrc";
+import js from "@eslint/js";
+import checkFile from "eslint-plugin-check-file";
+import n from "eslint-plugin-n";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const compat = new FlatCompat({
+  baseDirectory: path.dirname(fileURLToPath(import.meta.url)),
+  recommendedConfig: js.configs.recommended,
+  allConfig: js.configs.all,
+});
+
+export default [
+  ...compat.extends("next/core-web-vitals", "next/typescript", "prettier"),
+  {
+    plugins: {
+      "check-file": checkFile,
+      n,
+    },
+    rules: {
+      "@typescript-eslint/no-unused-expressions": ["off"],
+      "import/no-anonymous-default-export": [
+        "error",
+        {
+          allowArray: true,
+        },
+      ],
+      "@typescript-eslint/ban-ts-comment": [
+        "error",
+        {
+          "ts-ignore": "allow-with-description",
+        },
+      ],
+
+      "prefer-arrow-callback": ["error"],
+      "prefer-template": ["error"],
+      quotes: ["error", "double"],
+
+      "no-unused-vars": [
+        "warn",
+        {
+          argsIgnorePattern: "^_[^_].*$|^_$",
+          varsIgnorePattern: "^_[^_].*$|^_$",
+          caughtErrorsIgnorePattern: "^_[^_].*$|^_$",
+        },
+      ],
+
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["./", "../"],
+              message: "Relative imports are not allowed.",
+            },
+          ],
+        },
+      ],
+      "check-file/filename-naming-convention": [
+        "error",
+        {
+          "**/*.{ts,tsx}": "KEBAB_CASE",
+        },
+        {
+          ignoreMiddleExtensions: true,
+        },
+      ],
+
+      "check-file/folder-naming-convention": [
+        "error",
+        {
+          "src/**/!^[.*": "KEBAB_CASE",
+        },
+      ],
+
+      "n/no-process-env": ["error"],
+    },
   },
-};
+];
+`;
 
 export const TAILWIND_CONFIG = `import type { Config } from "tailwindcss";
 
@@ -129,16 +161,6 @@ export const VSCODE_CONFIG = {
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.preferences.importModuleSpecifier": "non-relative",
 };
-
-export const NEXT_CONFIG = `/** @type {import('next').NextConfig} */
-const nextConfig = {
-  experimental: {
-    typedRoutes: true,
-  },
-};
-
-export default nextConfig;
-`;
 
 export const UF_SLEEP = `export const sleep = async (ms: number) => {
   return new Promise((resolve) => {

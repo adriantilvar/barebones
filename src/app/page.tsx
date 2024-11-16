@@ -69,7 +69,8 @@ const pages = [
     id: "tricks",
     name: "Cool Tricks",
     icon: <StarIcon className="h-4 w-4" />,
-    description: "Cool stuff that you can do in your apps.",
+    description:
+      "Cool stuff that you can do in your apps. They are mostly gimmicks.",
   },
 ];
 
@@ -78,14 +79,13 @@ export default function Home() {
     "Here you'll find a collection of tools and files designed to make life easier. Whether you're setting up a new project or looking for handy functions to quickly copy-paste, these resources are here to help.";
 
   return (
-    <>
-      <h1 className="text-3xl font-semibold">Barebones</h1>
+    <main className="flex h-full flex-col overflow-scroll p-6">
       <p className="mt-2">{intro}</p>
-      <div className="mx-auto mt-4 max-w-6xl space-y-6">
+      <div className="mx-auto mt-4 max-w-6xl flex-1 space-y-6">
         <ScrollArea className="h-full">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {pages.map(({ id, name, icon, description }) => (
-              <Card key={id} className="h-40">
+              <Card key={id} className="h-44">
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     {icon}
@@ -93,7 +93,7 @@ export default function Home() {
                   </CardTitle>
                   <CardDescription>{description}</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="mt-auto">
                   <Link href={{ pathname: `/${id}` }} passHref>
                     <Button className="group w-full" variant="outline">
                       Explore {name}
@@ -106,6 +106,6 @@ export default function Home() {
           </div>
         </ScrollArea>
       </div>
-    </>
+    </main>
   );
 }

@@ -67,7 +67,7 @@ const Page = () => {
   }, "pnpm add -D");
 
   return (
-    <div className="mx-auto w-fit">
+    <main className="mx-auto w-fit py-8">
       <h1 className="text-2xl font-semibold">Quick Setup Commands</h1>
 
       <div className="mt-6">
@@ -104,7 +104,7 @@ const Page = () => {
           );
         })}
       </ul>
-    </div>
+    </main>
   );
 };
 

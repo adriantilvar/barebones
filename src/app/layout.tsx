@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type Metadata from "next";
 import { ReactNode } from "react";
 
 import Header from "@/components/header";
@@ -25,7 +25,7 @@ export default function RootLayout({
       </head>
       <body className="flex h-screen w-screen flex-col">
         <Header className="sticky top-0 h-14 shrink-0 px-4" />
-        <main className="h-full overflow-scroll p-6">{children}</main>
+        {children}
       </body>
     </html>
   );
