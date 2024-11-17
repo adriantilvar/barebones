@@ -1,3 +1,5 @@
+import type { Guide } from "@/lib/types";
+
 export const PRETTIER_CONFIG = {
   semi: true,
   singleQuote: false,
@@ -5,6 +7,8 @@ export const PRETTIER_CONFIG = {
   trailingComma: "es5",
   tailwindFunctions: ["cn"],
   importOrder: [
+    "server-only",
+    "use client",
     "^(react|next?/?([a-zA-z/]*))$",
     "<THIRD_PARTY_MODULES>",
     "^@/lib/(.*)$",
@@ -233,7 +237,15 @@ export const UF_SLUG_TO_TITLE = `export const slugToTitle = (slug: string) => {
     .join(" ");
 };`;
 
-export const G_T3_ENV_SERVER = `/* eslint-disable n/no-process-env */
+export const CT_EMOJI_FAVICON = `<head>
+  <link
+    rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📦</text></svg>"
+    />
+    ...
+</head>`;
+
+const G_T3_ENV_SERVER = `/* eslint-disable n/no-process-env */
 import { createEnv } from "@t3-oss/env-nextjs";
 import { z, type ZodError } from "zod";
 
@@ -252,7 +264,7 @@ export const env = createEnv({
 });
 `;
 
-export const G_T3_NEXT_CONFIG_TS = `import type { NextConfig } from "next";
+const G_T3_NEXT_CONFIG_TS = `import type { NextConfig } from "next";
 
 import "@/env/server.ts";
 
@@ -263,7 +275,7 @@ const nextConfig: NextConfig = {
 export default nextConfig;
 `;
 
-export const G_T3_NEXT_CONFIG_JS = `import { fileURLToPath } from "node:url";
+const G_T3_NEXT_CONFIG_JS = `import { fileURLToPath } from "node:url";
 import createJiti from "jiti";
 
 const jiti = createJiti(fileURLToPath(import.meta.url));
@@ -276,7 +288,7 @@ export default {
   /** ... */
 };`;
 
-export const G_NEXT_AUTH_ROUTE_HANDLER = `import NextAuth from "next-auth"
+const G_NEXT_AUTH_ROUTE_HANDLER = `import NextAuth from "next-auth"
 
 import options from "@/config/auth";
 
@@ -284,7 +296,7 @@ const handler = NextAuth(options);
 
 export { handler as GET, handler as POST }`;
 
-export const G_NEXT_AUTH_CONFIG = `import { NextAuthOptions } from "next-auth";
+const G_NEXT_AUTH_CONFIG = `import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
 import { env } from "@/env/server";
@@ -300,7 +312,174 @@ const options: NextAuthOptions = {
   
 export default options;`;
 
-export const SETUP_GUIDES = [
+const G_INTERNATIONALIZATION_DEPENDENCIES =
+  "pnpm add negotiator @formatjs/@formatjs/intl-localematcher";
+
+const G_LOCAL_PREFERENCES = `import "server-only";
+import { NextRequest } from "next/server";
+import Negotiator from "negotiator";
+import { match } from "@formatjs/intl-localematcher";
+
+export const SUPPORTED_LOCALES = ["en", "da"];
+export const DEFAULT_LOCALE = "en";
+
+const getLocale = (request: NextRequest) => {
+  const languages = new Negotiator({
+    headers: {
+      "accept-language": request.headers.get("accept-language") ?? "",
+    },
+  }).languages();
+
+  return match(languages, SUPPORTED_LOCALES, DEFAULT_LOCALE);
+};
+`;
+
+const G_VERIFY_LOCALE = `import "server-only";
+import { NextRequest } from "next/server";
+import Negotiator from "negotiator";
+import { match } from "@formatjs/intl-localematcher";
+
+export const SUPPORTED_LOCALES = ["en", "da"];
+export const DEFAULT_LOCALE = "en";
+
+const getLocale = (request: NextRequest) => {
+  const languages = new Negotiator({
+    headers: {
+      "accept-language": request.headers.get("accept-language") ?? "",
+    },
+  }).languages();
+
+  return match(languages, SUPPORTED_LOCALES, DEFAULT_LOCALE);
+};
+
+//Better approach: Have a list with all possible locales, check if the URL contains a locale in that list, and then check if the locale is supported
+export const verifyLocale = (request: NextRequest) => {
+  const { pathname } = request.nextUrl;
+  const [, firstParam, ...rest] = pathname.split("/");
+
+  const hasLocale = firstParam.length === 2;
+  const hasSupportedLocale =
+    hasLocale && SUPPORTED_LOCALES.includes(firstParam);
+
+  if (hasSupportedLocale) return { needsRedirect: false };
+
+  const trailingUrl = rest.length ? rest.join("/") : "";
+
+  return {
+    needsRedirect: true,
+    redirectPath:
+      firstParam.length && !hasLocale
+        ? \`/\${getLocale(request)}/\${firstParam}/\${trailingUrl}\`
+        : \`/\${getLocale(request)}/\${trailingUrl}\`,
+  };
+};
+`;
+
+const G_LOCALE_MIDDLEWARE = `import { NextRequest, NextResponse } from "next/server";
+
+import { verifyLocale } from "./middleware/check-locale";
+
+export const middleware = async (request: NextRequest) => {
+  const { needsRedirect, redirectPath } = verifyLocale(request);
+
+  if (needsRedirect) {
+    request.nextUrl.pathname = redirectPath!;
+    return NextResponse.redirect(request.nextUrl);
+  }
+};
+
+export const config = {
+  matcher: [
+    "/((?!_next).*)",
+    // Optional: only run on root (/) URL
+    // "/",
+  ],
+};
+`;
+
+const G_ENGLISH_DICTIONARY = `{
+  "products": {
+    "cart": "Add to Cart"
+  }
+}`;
+
+const G_DANISH_DICTIONARY = `{
+  "products": {
+    "cart": "Tilføj til kurv"
+  }
+}`;
+
+const G_DICTIONARIES_FUNC = `import "server-only";
+
+export type Locale = "en" | "da";
+
+const dictionaries = {
+  en: () => import("@/dictionaries/en.json").then((module) => module.default),
+  da: () => import("@/dictionaries/da.json").then((module) => module.default),
+};
+
+export const getDictionary = async (locale: Locale) => dictionaries[locale]();
+`;
+
+const G_LOCALE_CONTEXT = `"use client";
+
+import { createContext, type ReactNode, use } from "react";
+
+type LocaleDictionary = {
+  products: {
+    cart: string;
+  };
+};
+
+type LocaleState = {
+  dictionary: LocaleDictionary;
+};
+
+const LocaleContext = createContext<LocaleState | null>(null);
+
+export const useLocale = () => {
+  const localeContext = use(LocaleContext);
+
+  if (!localeContext)
+    throw new Error("useLocale must be used within a LocaleProvider");
+
+  return localeContext;
+};
+
+const LocaleProvider = ({
+  dictionary,
+  children,
+}: {
+  dictionary: LocaleDictionary;
+  children: ReactNode;
+}) => {
+  return <LocaleContext value={{ dictionary }}>{children}</LocaleContext>;
+};
+
+export default LocaleProvider;
+`;
+
+const G_LOCALE_LAYOUT = `export default async function RootLayout({
+  params,
+  children,
+}: Readonly<{
+  params: Promise<{ lang: string }>;
+  children: React.ReactNode;
+}>) {
+  const locale = (await params).lang as Locale;
+  const dictionary = await getDictionary(locale);
+
+  return (
+    <html lang={locale}>
+      <body>
+        <LocaleProvider dictionary={dictionary}>{children}</LocaleProvider>
+      </body>
+    </html>
+  );
+}
+`;
+
+export const SETUP_GUIDES: Guide[] = [
   {
     title: "Working with Type-Safe Environment Variables",
     slug: "type-safe-env-variables",
@@ -360,12 +539,68 @@ export const SETUP_GUIDES = [
       },
     ],
   },
+  {
+    title: "Supporting multiple languages (aka Internationalization)",
+    slug: "internationalization-setup",
+    description:
+      "Supporting multiple languages is done in Next.js through translated content (localization) and internationalized routes. This guide follows the sub-path way of doing it (e.g. /en/products) and makes use of middleware to automatically redirect the user. Additionally, it will show how to enable language switching programmatically.",
+    steps: [
+      {
+        name: "Installing the dependencies:",
+        code: G_INTERNATIONALIZATION_DEPENDENCIES,
+        isInline: true,
+      },
+      {
+        name: "Get the user’s language preferences in the browser:",
+        headline: "middleware/check-locale.ts",
+        code: G_LOCAL_PREFERENCES,
+        isInline: false,
+      },
+      {
+        name: "Check if the URL contains a (valid) locale, otherwise provide a redirection URL:",
+        headline: "middleware/verify-locale.ts",
+        code: G_VERIFY_LOCALE,
+        isInline: false,
+      },
+      {
+        name: "Use middleware to check every URL for the locale:",
+        headline: "{root}/middleware.ts",
+        code: G_LOCALE_MIDDLEWARE,
+        isInline: false,
+      },
+      {
+        name: "Nest all other routes inside of app/ within app/[lang], which allows every layout to access the lang parameter",
+      },
+      {
+        name: "Create an English dictionary:",
+        headline: "dictionaries/en.json",
+        code: G_ENGLISH_DICTIONARY,
+        isInline: false,
+      },
+      {
+        name: "Create another dictionary (Danish in this case):",
+        headline: "dictionaries/da.json",
+        code: G_DANISH_DICTIONARY,
+        isInline: false,
+      },
+      {
+        name: "Create a function to load the translations for the requested locale:",
+        headline: "dictionaries/get-dictionary.ts",
+        code: G_DICTIONARIES_FUNC,
+        isInline: false,
+      },
+      {
+        name: "You can just call the function in whichever component needs values from the dictionary. However, using the Context API makes it nicer to work with the dictionary:",
+        headline: "contexts/locale-context.tsx",
+        code: G_LOCALE_CONTEXT,
+        isInline: false,
+      },
+      {
+        name: "Now you only need to retrieve the dictionary once in the RootLayout and provide it, so that it can be accessed anywhere in the app using the useLocale hook:",
+        headline: "app/[lang]/layout.tsx",
+        code: G_LOCALE_LAYOUT,
+        isInline: false,
+      },
+    ],
+  },
 ];
-
-export const CT_EMOJI_FAVICON = `<head>
-  <link
-    rel="icon"
-    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📦</text></svg>"
-    />
-    ...
-</head>`;

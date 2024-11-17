@@ -8,7 +8,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const guide = SETUP_GUIDES.find((guide) => guide.slug === guideSlug);
 
   if (!guide) {
-    return <div>Guide not found</div>;
+    return <div>Guide does not exist</div>;
   }
 
   return (
