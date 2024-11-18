@@ -390,7 +390,7 @@ export const middleware = async (request: NextRequest) => {
 
 export const config = {
   matcher: [
-    "/((?!_next).*)",
+    "/((?!api|_next).*)",
     // Optional: only run on root (/) URL
     // "/",
   ],
