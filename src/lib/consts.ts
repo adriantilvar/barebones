@@ -288,30 +288,6 @@ export default {
   /** ... */
 };`;
 
-const G_NEXT_AUTH_ROUTE_HANDLER = `import NextAuth from "next-auth"
-
-import options from "@/config/auth";
-
-const handler = NextAuth(options);
-
-export { handler as GET, handler as POST }`;
-
-const G_NEXT_AUTH_CONFIG = `import { NextAuthOptions } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-
-import { env } from "@/env/server";
-
-const options: NextAuthOptions = {
-  providers: [
-    GoogleProvider({
-      clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET
-    })
-  ]
-}
-  
-export default options;`;
-
 const G_INTERNATIONALIZATION_DEPENDENCIES =
   "pnpm add negotiator @formatjs/@formatjs/intl-localematcher";
 
@@ -511,31 +487,6 @@ export const SETUP_GUIDES: Guide[] = [
       },
       {
         name: "Prevent using 'process.env' in the code with 'eslint-plugin-n'.",
-      },
-    ],
-  },
-  {
-    title: "Setting up authentication with Auth.js (previously NextAuth.js)",
-    slug: "auth-js-setup",
-    description:
-      "This is the most popular authentication library in the Next.js ecosystem. It is open-source and completely free. There are other popular paid, hosted services out there, which provide out-of-the-box solutions for fancy things like one-click email login, and more. But the drawback is that they typically charge more when the number of active users start increasing in your app.",
-    steps: [
-      {
-        name: "Installing the dependency:",
-        code: "pnpm add next-auth",
-        isInline: true,
-      },
-      {
-        name: "Initialize NextAuth using route handlers:",
-        headline: "/app/api/auth/[...nextauth]/route.ts",
-        code: G_NEXT_AUTH_ROUTE_HANDLER,
-        isInline: false,
-      },
-      {
-        name: "Create a config file for supporting Google login:",
-        headline: "/config/auth.ts",
-        code: G_NEXT_AUTH_CONFIG,
-        isInline: false,
       },
     ],
   },
