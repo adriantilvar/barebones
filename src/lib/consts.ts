@@ -27,37 +27,43 @@ export const PRETTIER_CONFIG = {
 };
 
 export const ESLINT_CONFIG = `import { FlatCompat } from "@eslint/eslintrc";
-import js from "@eslint/js";
+import pluginJs from "@eslint/js";
+import prettier from "eslint-config-prettier";
 import checkFile from "eslint-plugin-check-file";
 import n from "eslint-plugin-n";
+import globals from "globals";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import pluginTs from "typescript-eslint";
 
 const compat = new FlatCompat({
   baseDirectory: path.dirname(fileURLToPath(import.meta.url)),
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
 });
 
+/** @type {import('eslint').Linter.Config[]} */
 export default [
-  ...compat.extends("next/core-web-vitals", "next/typescript", "prettier"),
+  { files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
+  { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
   {
     plugins: {
+      prettier,
       "check-file": checkFile,
       n,
     },
+  },
+  {
     rules: {
       "@typescript-eslint/no-unused-expressions": ["off"],
-      "import/no-anonymous-default-export": [
-        "error",
-        {
-          allowArray: true,
-        },
-      ],
       "@typescript-eslint/ban-ts-comment": [
         "error",
         {
           "ts-ignore": "allow-with-description",
+        },
+      ],
+      "import/no-anonymous-default-export": [
+        "error",
+        {
+          allowArray: true,
         },
       ],
       "prefer-arrow-callback": ["error"],
@@ -100,10 +106,14 @@ export default [
       "n/no-process-env": ["error"],
     },
   },
+  pluginJs.configs.recommended,
+  ...pluginTs.configs.recommended,
+  ...compat.extends("next/core-web-vitals"),
 ];
 `;
 
 export const TAILWIND_CONFIG = `import type { Config } from "tailwindcss";
+import animate from "tailwindcss-animate";
 
 const config: Config = {
   darkMode: "selector",
@@ -113,16 +123,6 @@ const config: Config = {
       listStyleType: {
         hyphen: "'―  '",
         circle: "circle",
-      },
-      spacing: {
-        "96": "384px",
-        "128": "512px",
-        "160": "640px",
-        "192": "768px",
-        "224": "896px",
-        "256": "1024px",
-        "288": "1152px",
-        "320": "1280px",
       },
     },
     fontSize: {
@@ -138,7 +138,7 @@ const config: Config = {
       "6xl": ["72px", "1"],
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [animate],
 };
 
 export default config;
