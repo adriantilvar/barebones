@@ -294,26 +294,9 @@ export default {
 };`;
 
 const G_INTERNATIONALIZATION_DEPENDENCIES =
-  "pnpm add negotiator @formatjs/@formatjs/intl-localematcher";
+  "pnpm add negotiator @formatjs/intl-localematcher";
 
-const G_LOCAL_PREFERENCES = `import "server-only";
-import { NextRequest } from "next/server";
-import Negotiator from "negotiator";
-import { match } from "@formatjs/intl-localematcher";
-
-export const SUPPORTED_LOCALES = ["en", "da"];
-export const DEFAULT_LOCALE = "en";
-
-const getLocale = (request: NextRequest) => {
-  const languages = new Negotiator({
-    headers: {
-      "accept-language": request.headers.get("accept-language") ?? "",
-    },
-  }).languages();
-
-  return match(languages, SUPPORTED_LOCALES, DEFAULT_LOCALE);
-};
-`;
+const G_INTERNATIONALIZATION_DEV_DEPENDENCIES = "pnpm add -D @types/negotiator";
 
 const G_VERIFY_LOCALE = `import "server-only";
 import { NextRequest } from "next/server";
@@ -507,14 +490,13 @@ export const SETUP_GUIDES: Guide[] = [
         isInline: true,
       },
       {
-        name: "Get the user’s language preferences in the browser:",
-        headline: "middleware/check-locale.ts",
-        code: G_LOCAL_PREFERENCES,
-        isInline: false,
+        name: "During development, we need to add an additional dependency for negotiatior:",
+        code: G_INTERNATIONALIZATION_DEV_DEPENDENCIES,
+        isInline: true,
       },
       {
-        name: "Check if the URL contains a (valid) locale, otherwise provide a redirection URL:",
-        headline: "middleware/verify-locale.ts",
+        name: "We now create a middleware that gets the user's language preference and checks if the URL contains a (valid) locale. If it doesn't, we provide a redirection URL:",
+        headline: "middlewares/verify-locale.ts",
         code: G_VERIFY_LOCALE,
         isInline: false,
       },
