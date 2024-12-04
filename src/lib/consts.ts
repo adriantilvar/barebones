@@ -417,7 +417,7 @@ const LocaleProvider = ({
   dictionary: LocaleDictionary;
   children: ReactNode;
 }) => {
-  return <LocaleContext value={{ dictionary }}>{children}</LocaleContext>;
+  return <LocaleContext.Provider value={{ dictionary }}>{children}</LocaleContext.Provider>;
 };
 
 export default LocaleProvider;
