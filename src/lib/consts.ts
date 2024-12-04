@@ -245,26 +245,31 @@ export const CT_EMOJI_FAVICON = `<head>
     ...
 </head>`;
 
-const G_T3_ENV_SERVER = `/* eslint-disable n/no-process-env */
-import { createEnv } from "@t3-oss/env-nextjs";
-import { z, type ZodError } from "zod";
+const ZOD_ENV_SERVER = `import { z } from "zod";
 
-export const env = createEnv({
-  server: {
-    NODE_ENV: z.enum(["development", "production"]),
-  },
-  onValidationError: (error: ZodError) => {
-    console.error(
-      "Invalid environment variables:",
-      error.flatten().fieldErrors
-    );
-    process.exit(1);
-  },
-  experimental__runtimeEnv: process.env,
+// Here you can define all your environment variables
+const EnvSchema = z.object({
+  NODE_ENV: z.enum(["development", "production"]),
 });
+
+export type Env = z.infer<typeof EnvSchema>;
+
+let env: Env;
+
+try {
+  // eslint-disable-next-line n/no-process-env
+  env = EnvSchema.parse(process.env);
+} catch (e) {
+  const error = e as z.ZodError;
+  console.error("🚫 Invalid environment variables:");
+  console.error(error.flatten().fieldErrors);
+  process.exit(1);
+}
+
+export default env;
 `;
 
-const G_T3_NEXT_CONFIG_TS = `import type { NextConfig } from "next";
+const ZOD_ENV_NEXT_CONFIG_TS = `import type { NextConfig } from "next";
 
 import "@/env/server.ts";
 
@@ -275,7 +280,7 @@ const nextConfig: NextConfig = {
 export default nextConfig;
 `;
 
-const G_T3_NEXT_CONFIG_JS = `import { fileURLToPath } from "node:url";
+const ZOD_ENV_NEXT_CONFIG_MJS = `import { fileURLToPath } from "node:url";
 import createJiti from "jiti";
 
 const jiti = createJiti(fileURLToPath(import.meta.url));
@@ -460,29 +465,29 @@ export const SETUP_GUIDES: Guide[] = [
     title: "Working with Type-Safe Environment Variables",
     slug: "type-safe-env-variables",
     description:
-      "Next.js loads up environment variables out of the box, but it's possible that you may be missing some of them while running the application, or you may need a specific type. By using a tool like t3-env, you can prevent some annoying issues that come from working with the environment variables.",
+      "Next.js loads up environment variables out of the box, but it's possible that you may be missing some of them while running the application, or you may need a specific type. We can use Zod to prevent some annoying issues that come from working with the environment variables.",
     steps: [
       {
         name: "Installing the dependencies",
-        code: "pnpm add @t3-oss/env-nextjs zod",
+        code: "pnpm add zod",
         isInline: true,
       },
       {
         name: "Create server schema:",
         headline: "env/server.ts",
-        code: G_T3_ENV_SERVER,
+        code: ZOD_ENV_SERVER,
         isInline: false,
       },
       {
         name: "Import env/server.ts to validate the environment variables",
         headline: "next.config.ts",
-        code: G_T3_NEXT_CONFIG_TS,
+        code: ZOD_ENV_NEXT_CONFIG_TS,
         isInline: false,
       },
       {
         name: "IF you are using next.config.mjs, you can do it like this",
         headline: "next.config.mjs",
-        code: G_T3_NEXT_CONFIG_JS,
+        code: ZOD_ENV_NEXT_CONFIG_MJS,
         isInline: false,
       },
       {
