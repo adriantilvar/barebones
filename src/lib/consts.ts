@@ -167,6 +167,17 @@ export const UF_SLEEP = `export const sleep = async (ms: number) => {
   });
 };`;
 
+export const UF_SAFE_TRY = `export const safeTry = async <T, E = Error>(
+  promise: Promise<T>
+): Promise<[null, T] | [E, null]> => {
+  try {
+    const result = await promise;
+    return [null, result];
+  } catch (e) {
+    return [e as E, null];
+  }
+};`
+
 export const UF_QUICK_ARRAY = `export const quickArray = (length: number, fillValue?: any) =>
   Array.from({ length }, (_, i) => fillValue || i + 1);`;
 

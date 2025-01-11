@@ -1,5 +1,6 @@
 import {
   UF_QUICK_ARRAY,
+  UF_SAFE_TRY,
   UF_SLEEP,
   UF_SLUG_TO_TITLE,
   UF_SLUGIFY,
@@ -13,6 +14,11 @@ const functions = [
     name: "Sleep",
     description: "Stalls execution for a specified duration in milliseconds.",
     body: UF_SLEEP,
+  },
+  {
+    name: "Safe Try",
+    description: "Replaces try-catch blocks, returing instead an array with [error, result].",
+    body: UF_SAFE_TRY
   },
   {
     name: "Quick Array",
