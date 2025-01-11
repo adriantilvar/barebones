@@ -161,6 +161,31 @@ export const VSCODE_CONFIG = {
   "typescript.preferences.importModuleSpecifier": "non-relative",
 };
 
+export const ZSH_CONFIG = `# Find and set branch name var if in git repository.
+function git_branch_name()
+{
+  branch=$(git symbolic-ref HEAD 2> /dev/null | awk 'BEGIN{FS="/"} {print $
+  if [[ $branch == "" ]];
+  then
+    :
+  else
+    echo ' %F{#a5b4fc}['$branch']%f'
+  fi
+}
+
+# Enable autocomplete
+autoload -Uz compinit && compinit
+
+# Enable substitution in the prompt
+setopt prompt_subst
+
+# Config for prompt. PS1 synonym.
+current_folder='%F{#fdba74}%1/%f'
+prompt='adrian@\${current_folder}$(git_branch_name)$ '
+
+#aliases
+alias pn="pnpm"`;
+
 export const UF_SLEEP = `export const sleep = async (ms: number) => {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
@@ -176,7 +201,7 @@ export const UF_SAFE_TRY = `export const safeTry = async <T, E = Error>(
   } catch (e) {
     return [e as E, null];
   }
-};`
+};`;
 
 export const UF_QUICK_ARRAY = `export const quickArray = (length: number, fillValue?: any) =>
   Array.from({ length }, (_, i) => fillValue || i + 1);`;

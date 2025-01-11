@@ -3,6 +3,7 @@ import {
   PRETTIER_CONFIG,
   TAILWIND_CONFIG,
   VSCODE_CONFIG,
+  ZSH_CONFIG,
 } from "@/lib/consts";
 
 import CodePanel from "@/components/code-panel";
@@ -30,6 +31,12 @@ const files = [
     title: "Tailwind Config",
     filename: "tailwind.config.ts",
     content: TAILWIND_CONFIG,
+    isJson: false,
+  },
+  {
+    title: "Terminal (zsh) config",
+    filename: "~/.zshrc",
+    content: ZSH_CONFIG,
     isJson: false,
   },
 ];
