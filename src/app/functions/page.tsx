@@ -1,4 +1,5 @@
 import {
+  UF_COMPUTE_SHA256,
   UF_QUICK_ARRAY,
   UF_SAFE_TRY,
   UF_SLEEP,
@@ -17,14 +18,20 @@ const functions = [
   },
   {
     name: "Safe Try",
-    description: "Replaces try-catch blocks, returing instead an array with [error, result].",
-    body: UF_SAFE_TRY
+    description:
+      "Replaces try-catch blocks, returing instead an array with [error, result].",
+    body: UF_SAFE_TRY,
   },
   {
     name: "Quick Array",
     description:
       "Generates an array of a specified length. If a value is provided, the array will be filled with that value; otherwise, it will contain consecutive numbers starting from 1.",
     body: UF_QUICK_ARRAY,
+  },
+  {
+    name: "Compute File Checksum",
+    description: "Computes the checksum of a file using SHA-256.",
+    body: UF_COMPUTE_SHA256,
   },
   {
     name: "Slugify",

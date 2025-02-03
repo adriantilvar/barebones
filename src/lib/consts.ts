@@ -206,6 +206,17 @@ export const UF_SAFE_TRY = `export const safeTry = async <T, E = Error>(
 export const UF_QUICK_ARRAY = `export const quickArray = (length: number, fillValue?: any) =>
   Array.from({ length }, (_, i) => fillValue || i + 1);`;
 
+export const UF_COMPUTE_SHA256 = `export const computeSHA256 = async (file: File) => {
+  const arrayBuffer = await file.arrayBuffer();
+  const hashBuffer = await crypto.subtle.digest("SHA-256", arrayBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+
+  return hashHex;
+};`;
+
 export const UF_SLUGIFY = `export const slugify = (text: string) =>
   text
     .toString()
