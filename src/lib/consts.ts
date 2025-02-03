@@ -217,6 +217,13 @@ export const UF_COMPUTE_SHA256 = `export const computeSHA256 = async (file: File
   return hashHex;
 };`;
 
+export const UF_GENERATE_STRONG_NAME = `export const generateStrongName = (bytes = 32) => {
+  const array = new Uint8Array(bytes);
+  crypto.getRandomValues(array);
+
+  return [...array].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+};`;
+
 export const UF_SLUGIFY = `export const slugify = (text: string) =>
   text
     .toString()

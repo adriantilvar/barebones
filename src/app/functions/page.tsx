@@ -1,5 +1,6 @@
 import {
   UF_COMPUTE_SHA256,
+  UF_GENERATE_STRONG_NAME,
   UF_QUICK_ARRAY,
   UF_SAFE_TRY,
   UF_SLEEP,
@@ -32,6 +33,12 @@ const functions = [
     name: "Compute File Checksum",
     description: "Computes the checksum of a file using SHA-256.",
     body: UF_COMPUTE_SHA256,
+  },
+  {
+    name: "Generate Strong Name",
+    description:
+      "Generate a cryptographically strong name using random values.",
+    body: UF_GENERATE_STRONG_NAME,
   },
   {
     name: "Slugify",
