@@ -12,7 +12,7 @@ const Header = ({ className }: HeaderProps) => {
   return (
     <header
       className={cn(
-        "z-50 flex items-center border-b border-zinc-200 bg-white shadow shadow-zinc-200/50",
+        "z-50 flex items-center border-b border-zinc-200 bg-white shadow-sm shadow-zinc-200/50",
         className
       )}
     >

@@ -1,6 +1,6 @@
 import { CT_EMOJI_FAVICON } from "@/lib/consts";
 
-import CodePanel from "@/components/code-panel";
+import CodePanel from "@/components/widgets/code-panel";
 
 const tricks = [
   {

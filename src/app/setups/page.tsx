@@ -23,7 +23,7 @@ const Page = () => {
               <p className="mt-2 text-zinc-800">{guide.description}</p>
               <p className="mt-2 flex flex-row items-center font-semibold text-blue-600">
                 Implement{" "}
-                <ArrowRight className="ml-2 h-4 w-4 stroke-[3] transition-transform group-hover:translate-x-1" />
+                <ArrowRight className="ml-2 h-4 w-4 stroke-3 transition-transform group-hover:translate-x-1" />
               </p>
             </li>
           </Link>

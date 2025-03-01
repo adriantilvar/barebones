@@ -39,7 +39,7 @@ const CodePanel = ({
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-lg border bg-zinc-50 shadow-sm",
+        "relative overflow-hidden rounded-lg border bg-zinc-50 shadow-xs",
         className
       )}
     >
@@ -91,7 +91,7 @@ const CodePanel = ({
         {isCollapsible && !isExpanded && (
           <>
             <div
-              className="pointer-events-none absolute bottom-0 left-0 right-0 flex h-24 bg-gradient-to-t from-white via-white/80 to-transparent"
+              className="pointer-events-none absolute bottom-0 left-0 right-0 flex h-24 bg-linear-to-t from-white via-white/80 to-transparent"
               aria-hidden="true"
             ></div>
           </>

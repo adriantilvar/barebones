@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import CodePanel from "@/components/code-panel";
+import CodePanel from "@/components/widgets/code-panel";
 
 const dependencies = [
   {

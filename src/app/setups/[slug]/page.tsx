@@ -1,6 +1,6 @@
 import { SETUP_GUIDES } from "@/lib/consts";
 
-import CodePanel from "@/components/code-panel";
+import CodePanel from "@/components/widgets/code-panel";
 
 const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const guideSlug: string = (await params).slug;

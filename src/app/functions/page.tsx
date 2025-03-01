@@ -9,7 +9,7 @@ import {
   UF_TO_CAMEL_CASE,
 } from "@/lib/consts";
 
-import CodePanel from "@/components/code-panel";
+import CodePanel from "@/components/widgets/code-panel";
 
 const functions = [
   {

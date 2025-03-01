@@ -6,7 +6,7 @@ import {
   ZSH_CONFIG,
 } from "@/lib/consts";
 
-import CodePanel from "@/components/code-panel";
+import CodePanel from "@/components/widgets/code-panel";
 
 const files = [
   {
