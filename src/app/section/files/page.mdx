@@ -1,0 +1,174 @@
+# Quick Setup Files
+
+- VSCode Config
+
+  ```json
+  /* [caption:.vscode/settings.json] */
+  {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "always",
+      "source.organizeImports": "always",
+    },
+    "workbench.editor.customLabels.patterns": {
+      "**/app/**/page.tsx": "\${dirname} (page)",
+      "**/app/**/layout.tsx": "\${dirname} (layout)",
+    },
+    "files.associations": {
+      "*.css": "tailwindcss",
+    },
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "typescript.preferences.importModuleSpecifier": "non-relative",
+  };
+  ```
+
+- Prettier Config
+
+  ```json
+  /* [caption:.prettierrc.json] */
+  {
+    "semi": true,
+    "singleQuote": false,
+    "tabWidth": 2,
+    "trailingComma": "es5",
+    "tailwindFunctions": ["cn"],
+    "importOrder": [
+      "server-only",
+      "use client",
+      "^(react|next?/?([a-zA-z/]*))$",
+      "<THIRD_PARTY_MODULES>",
+      "^@/lib/(.*)$",
+      "^@/components/(.*)$",
+      "^@/(.*)$",
+      "^[./]"
+    ],
+    "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true,
+    "importOrderCaseInsensitive": true,
+    "importOrderGroupNamespaceSpecifiers": true,
+    "plugins": [
+      "@trivago/prettier-plugin-sort-imports",
+      "prettier-plugin-tailwindcss"
+    ]
+  }
+  ```
+
+- ESLint Config
+
+  ```javascript
+  /* [caption:eslint.config.mjs] */
+  import { FlatCompat } from "@eslint/eslintrc";
+  import pluginJs from "@eslint/js";
+  import prettier from "eslint-config-prettier";
+  import checkFile from "eslint-plugin-check-file";
+  import n from "eslint-plugin-n";
+  import globals from "globals";
+  import path from "node:path";
+  import { fileURLToPath } from "node:url";
+  import pluginTs from "typescript-eslint";
+
+  const compat = new FlatCompat({
+    baseDirectory: path.dirname(fileURLToPath(import.meta.url)),
+  });
+
+  /** @type {import('eslint').Linter.Config[]} */
+  export default [
+    { files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
+    { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
+    {
+      plugins: {
+        prettier,
+        "check-file": checkFile,
+        n,
+      },
+    },
+    {
+      rules: {
+        "@typescript-eslint/no-unused-expressions": ["off"],
+        "@typescript-eslint/ban-ts-comment": [
+          "error",
+          {
+            "ts-ignore": "allow-with-description",
+          },
+        ],
+        "import/no-anonymous-default-export": [
+          "error",
+          {
+            allowArray: true,
+          },
+        ],
+        "prefer-arrow-callback": ["error"],
+        "prefer-template": ["error"],
+        quotes: ["error", "double"],
+        "no-unused-vars": [
+          "warn",
+          {
+            argsIgnorePattern: "^_[^_].*$|^_$",
+            varsIgnorePattern: "^_[^_].*$|^_$",
+            caughtErrorsIgnorePattern: "^_[^_].*$|^_$",
+          },
+        ],
+        "no-restricted-imports": [
+          "error",
+          {
+            patterns: [
+              {
+                group: ["./", "../"],
+                message: "Relative imports are not allowed.",
+              },
+            ],
+          },
+        ],
+        "check-file/filename-naming-convention": [
+          "error",
+          {
+            "**/*.{ts,tsx}": "KEBAB_CASE",
+          },
+          {
+            ignoreMiddleExtensions: true,
+          },
+        ],
+        "check-file/folder-naming-convention": [
+          "error",
+          {
+            "src/**/!^[.*": "KEBAB_CASE",
+          },
+        ],
+        "n/no-process-env": ["error"],
+      },
+    },
+    pluginJs.configs.recommended,
+    ...pluginTs.configs.recommended,
+    ...compat.extends("next/core-web-vitals"),
+  ];
+  ```
+
+- Terminal config (zsh)
+
+  ```bash
+  /* [caption:~/.zshrc] */
+  # Find and set branch name var if in git repository.
+  function git_branch_name()
+  {
+    branch=$(git symbolic-ref HEAD 2> /dev/null | awk 'BEGIN{FS="/"} {print $
+    if [[ $branch == "" ]];
+    then
+      :
+    else
+      echo ' %F{#a5b4fc}['$branch']%f'
+    fi
+  }
+
+  # Enable autocomplete
+  autoload -Uz compinit && compinit
+
+  # Enable substitution in the prompt
+  setopt prompt_subst
+
+  # Config for prompt. PS1 synonym.
+  current_folder='%F{#fdba74}%1/%f'
+  prompt='adrian@${current_folder}$(git_branch_name)$ '
+
+  #aliases
+  alias pn="pnpm"
+  ```

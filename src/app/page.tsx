@@ -21,52 +21,52 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 const sections = [
   {
-    id: "todo-list",
+    id: "/section/todo-list",
     name: "To-Do List",
     icon: ListChecksIcon,
     description:
       "A checklist of common tasks and steps for setting up a project.",
   },
   {
-    id: "files",
+    id: "/section/files",
     name: "Files",
     icon: FileText,
     description: "Configuration files for various tools and frameworks.",
   },
   {
-    id: "dependencies",
+    id: "/section/dependencies",
     name: "Dependencies",
     icon: PackageIcon,
     description: "Commands to install suggested packages and libraries.",
   },
   {
-    id: "project-structure",
+    id: "/section/project-structure",
     name: "Project Structure",
     icon: FolderTree,
     description:
       "Recommended directory structures and organization for projects.",
   },
   {
-    id: "setups",
+    id: "/section/setups",
     name: "Setups",
     icon: WrenchIcon,
     description: "Quick guides on how to set different, common things up. ",
   },
   {
-    id: "functions",
+    id: "/section/functions",
     name: "Utility Functions",
     icon: SquareFunctionIcon,
     description:
       "Reusable functions to help with repetitive or common operations.",
   },
   {
-    id: "scripts",
+    id: "/section/scripts",
     name: "Scripts",
     icon: ScrollTextIcon,
     description: "Helpful scripts for automation and development tasks.",
   },
   {
-    id: "tricks",
+    id: "/section/tricks",
     name: "Cool Tricks",
     icon: StarIcon,
     description:
@@ -79,9 +79,9 @@ export default function Home() {
     "Here you'll find a collection of tools and files designed to make life easier. Whether you're setting up a new project or looking for handy functions to quickly copy-paste, these resources are here to help.";
 
   return (
-    <main className="flex h-full flex-col overflow-scroll p-6">
+    <main className="container mx-auto flex flex-col p-12">
       <p className="mt-2">{intro}</p>
-      <div className="mx-auto mt-4 max-w-6xl flex-1 space-y-6">
+      <div className="mt-8 space-y-6">
         <ScrollArea className="h-full">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {sections.map((section) => (
@@ -94,10 +94,10 @@ export default function Home() {
                   <CardDescription>{section.description}</CardDescription>
                 </CardHeader>
                 <CardContent className="mt-auto">
-                  <Link href={{ pathname: `/${section.id}` }} passHref>
+                  <Link href={{ pathname: section.id }} passHref>
                     <Button className="group w-full" variant="outline">
                       Explore {section.name}
-                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      <ArrowRight className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
                     </Button>
                   </Link>
                 </CardContent>

@@ -1,0 +1,155 @@
+<article className="prose">
+
+# Supporting multiple languages (aka Internationalization)
+
+Next.js supports multiple languages through content localization (i18n) and internationalized routing. While there are several ways to implement this, we'll explore how to set it up using the sub-path approach, in which we prepend the language to every route (e.g., `/en/products`).
+
+1. Install the dependencies:
+
+   ```bash
+   pnpm add negotiator @formatjs/intl-localematcher
+   ```
+
+2. Install the development-only dependencies:
+
+   ```bash
+   pnpm add -D @types/negotiator
+   ```
+
+3. Create a middleware to check the locale:
+
+   ```typescript
+   /*[caption:middlewares/verify-locale.ts] [showLineNumbers]*/
+   import { NextRequest } from "next/server";
+
+   import { match } from "@formatjs/intl-localematcher";
+   import Negotiator from "negotiator";
+   import "server-only";
+
+   export const SUPPORTED_LOCALES = ["en", "da"];
+   export const DEFAULT_LOCALE = "en";
+
+   const getLocale = (request: NextRequest) => {
+     const languages = new Negotiator({
+       headers: {
+         "accept-language": request.headers.get("accept-language") ?? "",
+       },
+     }).languages();
+
+     return match(languages, SUPPORTED_LOCALES, DEFAULT_LOCALE);
+   };
+
+   export const verifyLocale = (request: NextRequest) => {
+     const { pathname } = request.nextUrl;
+     const [, firstParam, ...rest] = pathname.split("/");
+
+     const hasLocale = firstParam.length === 2;
+     const hasSupportedLocale =
+       hasLocale && SUPPORTED_LOCALES.includes(firstParam);
+
+     if (hasSupportedLocale) return { needsRedirect: false };
+
+     const trailingUrl = rest.length ? rest.join("/") : "";
+
+     return {
+       needsRedirect: true,
+       redirectPath:
+         firstParam.length && !hasLocale
+           ? `/${getLocale(request)}/${firstParam}/${trailingUrl}`
+           : `/${getLocale(request)}/${trailingUrl}`,
+     };
+   };
+   ```
+
+4. Use middleware to check every URL for the locale:
+
+   ```typescript
+   /*[caption:{root}/middleware.ts] [showLineNumbers]*/
+   import { NextRequest, NextResponse } from "next/server";
+
+   import { verifyLocale } from "./middleware/check-locale";
+
+   export const middleware = async (request: NextRequest) => {
+     const { needsRedirect, redirectPath } = verifyLocale(request);
+
+     if (needsRedirect) {
+       request.nextUrl.pathname = redirectPath!;
+       return NextResponse.redirect(request.nextUrl);
+     }
+   };
+
+   export const config = {
+     matcher: [
+       "/((?!api|_next).*)",
+       // Optional: only run on root (/) URL
+       // "/",
+     ],
+   };
+   ```
+
+5. Move all the routes from `app/` to `app/[lang]`.
+
+6. Create an English dictionary:
+
+   ```json
+   {
+     "products": {
+       "cart": "Add to Cart"
+     }
+   }
+   ```
+
+7. Create another dictionary (Danish in this case):
+
+   ```json
+   {
+     "products": {
+       "cart": "Tilføj til kurv"
+     }
+   }
+   ```
+
+8. Create a function to load the translations for the requested locale:
+
+   ```typescript
+   /*[caption:dictionaries/get-dictionary.ts] [showLineNumbers]*/
+   import "server-only";
+
+   export type Locale = "en" | "da";
+
+   const dictionaries = {
+     en: () =>
+       import("@/dictionaries/en.json").then((module) => module.default),
+     da: () =>
+       import("@/dictionaries/da.json").then((module) => module.default),
+   };
+
+   export const getDictionary = async (locale: Locale) =>
+     dictionaries[locale]();
+   ```
+
+9. Use the `getDictionary` function (preferably inside server components):
+
+   ```tsx
+   import { getDictionary, type Locale } from "@/dictionaries/get-dictionary";
+
+   export default async function Home({
+     params,
+   }: {
+     params: Promise<{
+       lang: Locale;
+     }>;
+   }) {
+     const locale = (await params).lang;
+     const { marketing } = await getDictionary(locale);
+
+     return (
+       <main>
+         <h1>{marketing.title}</h1>
+         ...
+       </main>
+     );
+   }
+   ```
+
+</article>

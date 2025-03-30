@@ -1,0 +1,155 @@
+# Useful utility functions
+
+- Sleep
+
+  Stalls execution for a specified duration in milliseconds.
+
+  ```typescript
+  export const sleep = async (ms: number) =>
+    new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+  ```
+
+- Safe Try
+
+  Replaces try-catch blocks, returing instead an array with [error, result].
+
+  ```typescript
+  export const safeTry = async <T, E = Error>(
+    promise: Promise<T>
+  ): Promise<[null, T] | [E, null]> => {
+    try {
+      const result = await promise;
+      return [null, result];
+    } catch (e) {
+      return [e as E, null];
+    }
+  };
+  ```
+
+- Quick Array
+
+  Generates an array of a specified length. If a value is provided, the array will be filled with that value; otherwise, it will contain consecutive numbers starting from 1.
+
+  ```typescript
+  export const quickArray = (length: number, fillValue?: any) =>
+    Array.from({ length }, (_, i) => fillValue || i + 1);
+  ```
+
+- Compute File Checksum
+
+  Computes the checksum of a file using SHA-256.
+
+  ```typescript
+  export const computeSHA256 = async (file: File) => {
+    const arrayBuffer = await file.arrayBuffer();
+    const hashBuffer = await crypto.subtle.digest("SHA-256", arrayBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray
+      .map((byte) => byte.toString(16).padStart(2, "0"))
+      .join("");
+
+    return hashHex;
+  };
+  ```
+
+- Generate Strong Name
+
+  Generate a cryptographically strong name using random values.
+
+  ```typescript
+  export const generateStrongName = (bytes = 32) => {
+    const array = new Uint8Array(bytes);
+    crypto.getRandomValues(array);
+
+    return [...array]
+      .map((byte) => byte.toString(16).padStart(2, "0"))
+      .join("");
+  };
+  ```
+
+- Slugify
+
+  Transforms a string into a 'slug'.
+
+  ```typescript
+  export const slugify = (text: string) =>
+    text
+      .toString()
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, "-")
+      .replace(/&/g, "-and-")
+      .replace(/[^\w-]+/g, "")
+      .replace(/--+/g, "-");
+  ```
+
+- Transform Slug to Camel Case
+
+  Transforms a string into a camelCase string.
+
+  ```typescript
+  export const toCamelCase = (slug: string) => {
+    const regex = /^[a-z-]+$/;
+
+    if (!regex.test(slug)) {
+      throw new Error("Invalid slug");
+    }
+
+    return slug
+      .split("-")
+      .map((word, index) =>
+        index ? word.charAt(0).toUpperCase() + word.slice(1) : word
+      )
+      .join("");
+  };
+  ```
+
+- Slug To Title
+
+  Transforms a slug string into a title case string.
+
+  ```typescript
+  export const slugToTitle = (slug: string) => {
+    const exceptions = [
+      "the",
+      "and",
+      "or",
+      "but",
+      "nor",
+      "a",
+      "an",
+      "so",
+      "for",
+      "yet",
+      "at",
+      "by",
+      "from",
+      "of",
+      "on",
+      "to",
+      "with",
+      "in",
+      "up",
+      "over",
+      "as",
+    ];
+
+    const words = slug.split("-");
+
+    return words
+      .map((word, index) => {
+        if (
+          index === 0 ||
+          index === words.length - 1 ||
+          !exceptions.includes(word)
+        ) {
+          return word.charAt(0).toUpperCase() + word.slice(1);
+        } else {
+          return word;
+        }
+      })
+      .join(" ");
+  };
+  ```

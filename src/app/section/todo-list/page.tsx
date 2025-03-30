@@ -71,7 +71,7 @@ const ToDoPage = () => {
         ))}
       </ul>
 
-      <div className="mt-auto">
+      <div className="mt-8">
         <Progress value={progress} />
 
         <p className="mt-2 text-sm">
