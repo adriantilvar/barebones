@@ -1,0 +1,115 @@
+# Linting and Formatting using Biome
+
+Linting and formatting are two of the most important aspects of clean and consistent code-writing. Historically, these two things were treated by the community as separate things that required two separate tools-ESlint and Prettier historically. However, there came a new kid on the block that's beginning to build momentum: Biome. The project aims to replace both these tools with the added benefit of being super fast (due to being written in Rust). This is what we will set up to use with Next.js.
+
+## 1. Installing the dependency
+
+    ```bash
+    pnpm add --save-dev --save-exact @biomejs/biome
+    ```
+
+## 2. Defining the configurations for Biome
+
+    ```json
+    /* [caption:biome.json] */
+    {
+      "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+      "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
+      "files": { "ignoreUnknown": false, "ignore": ["node_modules"] },
+      "formatter": {
+        "enabled": true,
+        "useEditorconfig": true,
+        "formatWithErrors": false,
+        "indentStyle": "space",
+        "indentWidth": 2,
+        "lineEnding": "lf",
+        "lineWidth": 80,
+        "attributePosition": "auto",
+        "bracketSpacing": true
+      },
+      "organizeImports": { "enabled": true },
+      "linter": {
+        "enabled": true,
+        "rules": {
+          "recommended": true,
+          "correctness": {
+            "useImportExtensions": "error",
+            "noUnusedImports": "error",
+            "noUnknownFunction": {
+              "level": "error"
+            }
+          },
+          "nursery": { "noProcessEnv": "error", "useSortedClasses": "info" },
+          "style": {
+            "useFilenamingConvention": {
+              "level": "error",
+              "options": {
+                "requireAscii": true,
+                "filenameCases": ["kebab-case"]
+              }
+            }
+          }
+        }
+      },
+      "javascript": {
+        "formatter": {
+          "jsxQuoteStyle": "double",
+          "quoteProperties": "asNeeded",
+          "trailingCommas": "es5",
+          "semicolons": "always",
+          "arrowParentheses": "always",
+          "bracketSameLine": false,
+          "quoteStyle": "double",
+          "attributePosition": "auto",
+          "bracketSpacing": true
+        }
+      },
+      "css": {
+        "formatter": {
+          "enabled": true
+        }
+      }
+    }
+    ```
+
+These are my preferred configs at the moment of writing, but I'm not super opinionated about theme, so you do you.
+
+## 3. Creating a script to do both linting and formatting (2-in-1)
+
+    ```json
+    {
+      ...
+      "scripts": {
+        "dev": "next dev --turbopack",
+        "build": "next build",
+        "start": "next start",
+        "lint": "biome check ./src --write --unsafe",
+        "prepare": "husky"
+      },
+    }
+    ```
+
+At this point you should just run the lint script and see if everything works. If something's up, it's between you and Google, my friend.
+
+## 4. Skipping linting with ESlint
+
+By default, your CI/CD provider will most likely run ESlint (or at least Vercel does). Now, that's not necessarily a bad thing, even if you're not using ESlint during development. The problem is, Biome doesn't have 100% ESlint coverage (still very much a work in progress). So, if you have some important ESlint-dependent functionality that you can't live without, you maybe should reconsider using Biome. Don't get me wrong, doing both is definitely doable, but you will have to jump through some hoops.
+
+As far as I'm concerned, I'm fine with dropping ESlint, so I'll just disable it in the Next config:
+
+    ```ts
+    /* [caption:next.config.ts] */
+    ...
+
+    const nextConfig: NextConfig = {
+      /* config options here */
+      pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
+      eslint: {
+        ignoreDuringBuilds: true,
+      },
+    };
+
+    ...
+    ```
+
+And that's about it. Some an extra tip would be using Husky to do the checking before git-committing, but that's up to you chief. I do it just to be safe, since I'm not running linting on the CI/CD pipeline.

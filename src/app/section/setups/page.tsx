@@ -14,6 +14,12 @@ const SETUP_GUIDES = [
     description:
       "Next.js supports multiple languages through content localization (i18n) and internationalized routing. While there are several ways to implement this, we'll explore how to set it up using the sub-path approach, in which we prepend the language to every route (e.g., `/en/products`).",
   },
+  {
+    title: "Linting and Formatting using Biome",
+    path: "/section/setups/biome-linting-and-formatting",
+    description:
+      "Linting and formatting are two of the most important aspects of clean and consistent code-writing. Historically, these two things were treated by the community as separate things that required two separate tools-ESlint and Prettier historically. However, there came a new kid on the block that's beginning to build momentum: Biome.",
+  },
 ];
 
 const Page = () => {
