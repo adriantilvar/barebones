@@ -1,6 +1,5 @@
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-
-import ArrowRight from "@/components/icons/arrow-right";
 
 const SETUP_GUIDES = [
   {
