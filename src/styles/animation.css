@@ -1,0 +1,11 @@
+@utility direction-reverse {
+  animation-direction: reverse;
+}
+
+@utility direction-alternate {
+  animation-direction: alternate;
+}
+
+@utility direction-alternate-reverse {
+  animation-direction: alternate-reverse;
+}
