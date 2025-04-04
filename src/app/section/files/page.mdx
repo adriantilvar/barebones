@@ -2,25 +2,84 @@
 
 - VSCode Config
 
-  ```json
+    ```json
   /* [caption:.vscode/settings.json] */
-  {
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.fixAll": "always",
-      "source.organizeImports": "always",
-    },
-    "workbench.editor.customLabels.patterns": {
-      "**/app/**/page.tsx": "\${dirname} (page)",
-      "**/app/**/layout.tsx": "\${dirname} (layout)",
-    },
-    "files.associations": {
-      "*.css": "tailwindcss",
-    },
-    "typescript.tsdk": "node_modules/typescript/lib",
-    "typescript.preferences.importModuleSpecifier": "non-relative",
-  };
-  ```
+    {
+      "editor.formatOnSave": true,
+      "editor.codeActionsOnSave": {
+        "source.fixAll": "always",
+        "source.organizeImports.biome": "explicit"
+      },
+      "workbench.editor.customLabels.patterns": {
+        "**/app/**/page.tsx": "${dirname} (page)",
+        "**/app/**/layout.tsx": "${dirname} (layout)"
+      },
+      "typescript.tsdk": "node_modules/typescript/lib"
+    }
+    ```
+
+- Biome Config
+
+    ```json
+    {
+      "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+      "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
+      "files": { "ignoreUnknown": false, "ignore": ["node_modules"] },
+      "formatter": {
+        "enabled": true,
+        "useEditorconfig": true,
+        "formatWithErrors": false,
+        "indentStyle": "space",
+        "indentWidth": 2,
+        "lineEnding": "lf",
+        "lineWidth": 80,
+        "attributePosition": "auto",
+        "bracketSpacing": true
+      },
+      "organizeImports": { "enabled": true },
+      "linter": {
+        "enabled": true,
+        "rules": {
+          "recommended": true,
+          "correctness": {
+            "useImportExtensions": "error",
+            "noUnusedImports": "error",
+            "noUnknownFunction": {
+              "level": "error"
+            }
+          },
+          "nursery": { "noProcessEnv": "error", "useSortedClasses": "info" },
+          "style": {
+            "useFilenamingConvention": {
+              "level": "warn",
+              "options": {
+                "requireAscii": true,
+                "filenameCases": ["kebab-case"]
+              }
+            }
+          }
+        }
+      },
+      "javascript": {
+        "formatter": {
+          "jsxQuoteStyle": "double",
+          "quoteProperties": "asNeeded",
+          "trailingCommas": "es5",
+          "semicolons": "always",
+          "arrowParentheses": "always",
+          "bracketSameLine": false,
+          "quoteStyle": "double",
+          "attributePosition": "auto",
+          "bracketSpacing": true
+        }
+      },
+      "css": {
+        "formatter": {
+          "enabled": true
+        }
+      }
+    }
+    ```
 
 - Prettier Config
 

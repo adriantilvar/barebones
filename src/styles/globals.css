@@ -6,7 +6,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --text-*: initial;
+  --text-\*: initial;
   --text-3xs: 10px;
   --text-3xs--line-height: 20px;
   --text-2xs: 12px;
@@ -32,7 +32,7 @@
   --text-6xl: 72px;
   --text-6xl--line-height: 1;
 
-  --list-style-type-hyphen: ―;
+  --list-style-type-hyphen: "―";
   --list-style-type-circle: circle;
 
   --radius-lg: var(--radius);

@@ -20,7 +20,7 @@ const SETUP_GUIDES = [
 const Page = () => {
   return (
     <>
-      <h1 className="text-xl font-semibold">Setup Guides</h1>
+      <h1 className="font-semibold text-xl">Setup Guides</h1>
 
       <div className="my-8 flex gap-x-4">
         <span className="w-4 rounded-xl bg-zinc-100" />
@@ -32,7 +32,7 @@ const Page = () => {
             >
               <h2 className="font-semibold text-zinc-900">
                 <Link href={{ pathname: guide.path }}>
-                  <span className="absolute inset-0 z-10"></span>
+                  <span className="absolute inset-0 z-10" />
                   {guide.title}
                 </Link>
               </h2>

@@ -7,18 +7,16 @@ import {
   useState,
 } from "react";
 
-import { Check, Copy } from "lucide-react";
-
 import { cn, sleep } from "@/lib/utils";
 
-import { Button } from "@/components/ui/button";
-
+import { Button } from "@/components/ui/button.tsx";
+import { Check, Copy } from "lucide-react";
 import {
   extractLanguage,
   extractMetadata,
   getJsxElement,
   highlighter,
-} from "./highlighter";
+} from "./highlighter.ts";
 
 const CodePanel = (props: ComponentProps<"pre">) => {
   const [isShowingCheck, setIsShowingCheck] = useState(false);
@@ -29,7 +27,7 @@ const CodePanel = (props: ComponentProps<"pre">) => {
     await sleep(1000).then(() => setIsShowingCheck(false));
   };
 
-  let child = Children.only(props.children) as ReactElement;
+  const child = Children.only(props.children) as ReactElement;
   if (!child) return null;
 
   const { className, children } = child.props as ComponentProps<"code">;
@@ -59,7 +57,7 @@ const CodePanel = (props: ComponentProps<"pre">) => {
         <Button
           variant="ghost"
           className={cn("absolute top-2 right-2 size-7 p-1 hover:bg-zinc-100", {
-            "top-1 hover:bg-zinc-200": metadata?.caption,
+            "top-1 hover:bg-zinc-200/80": metadata?.caption,
           })}
           onClick={() => !isShowingCheck && copyToClipboard(code)}
         >
@@ -71,7 +69,7 @@ const CodePanel = (props: ComponentProps<"pre">) => {
         </Button>
 
         {metadata?.caption && (
-          <p className="inline px-2 font-mono text-zinc-700">
+          <p className="inline-block px-2 py-1 font-mono text-zinc-700">
             {metadata.caption}
           </p>
         )}
@@ -79,7 +77,7 @@ const CodePanel = (props: ComponentProps<"pre">) => {
         <pre
           className={cn(
             className,
-            "mt-0 overflow-x-auto rounded-lg border border-zinc-200 p-2",
+            "overflow-x-auto rounded-lg border border-zinc-200 p-2",
             {
               "[&_code]:[counter-reset:line] [&_code_.line]:[counter-increment:line] [&_code_.line]:before:my-0 [&_code_.line]:before:mr-8 [&_code_.line]:before:ml-4 [&_code_.line]:before:inline-block [&_code_.line]:before:w-6 [&_code_.line]:before:text-zinc-400 [&_code_.line]:before:[content:counter(line)]":
                 metadata?.showLineNumbers,

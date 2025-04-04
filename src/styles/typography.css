@@ -47,11 +47,7 @@
       --prose-link-underline-color: var(--color-sky-400);
       --prose-th-borders: var(--color-zinc-600);
       --prose-td-borders: var(--color-zinc-700);
-      --prose-hr-color: color-mix(
-        in oklab,
-        var(--color-white) 10%,
-        transparent
-      );
+      --prose-hr-color: color-mix(in oklab, var(--color-white) 10%, transparent);
       --prose-blockquote-border-color: var(--color-zinc-600);
     }
   }
@@ -312,6 +308,7 @@
 
 .prose-blog {
   img:where(:not(.not-prose, .not-prose *)) {
+    /* biome-ignore lint/correctness/noUnknownFunction: Not standard CSS */
     @media (max-width: theme(--breakpoint-sm)) {
       margin-inline: calc(var(--spacing) * -4);
       max-width: calc(100% + calc(var(--spacing) * 8));

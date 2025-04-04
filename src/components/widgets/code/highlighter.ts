@@ -1,4 +1,4 @@
-import { Fragment, type JSX } from "react";
+import { type ComponentProps, Fragment, type JSX } from "react";
 
 import { toJsxRuntime } from "hast-util-to-jsx-runtime";
 import { jsx, jsxs } from "react/jsx-runtime";
@@ -30,9 +30,10 @@ export const extractMetadata = (className: string) => {
       const key = (
         hasValue ? previous.split(":")[0] : previous
       ) as AllowedMetadataKeys;
-      const value = hasValue ? previous.split(":")[1] : true;
 
-      return { ...accumulator, [key]: value };
+      accumulator[key] = hasValue ? previous.split(":")[1] : true;
+
+      return accumulator;
     }, {} as Metadata);
 
     return [metadata, lines.toSpliced(0, 1).join("\n")] as const;
@@ -50,8 +51,9 @@ export const getJsxElement = ({
   hast,
   pre,
 }: {
+  // biome-ignore lint: Can't figure out the type passed
   hast: any;
-  pre: (props: any) => JSX.Element;
+  pre: (props: ComponentProps<"pre">) => JSX.Element;
 }) =>
   toJsxRuntime(hast, {
     Fragment,

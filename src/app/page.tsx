@@ -1,14 +1,3 @@
-import Link from "next/link";
-
-import ArrowRight from "@/components/icons/arrow-right";
-import FileText from "@/components/icons/file-text";
-import FolderTree from "@/components/icons/folder-tree";
-import ListChecksIcon from "@/components/icons/list-checks";
-import PackageIcon from "@/components/icons/package";
-import ScrollTextIcon from "@/components/icons/scroll-text";
-import SquareFunctionIcon from "@/components/icons/square-function";
-import StarIcon from "@/components/icons/start";
-import WrenchIcon from "@/components/icons/wrench";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -18,57 +7,69 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  ArrowRightIcon,
+  FileTextIcon,
+  FolderTreeIcon,
+  ListChecks,
+  PackageOpen,
+  ScrollText,
+  SquareFunction,
+  Star,
+  Wrench,
+} from "lucide-react";
+import Link from "next/link";
 
 const sections = [
   {
     id: "/section/todo-list",
     name: "To-Do List",
-    icon: ListChecksIcon,
+    icon: ListChecks,
     description:
       "A checklist of common tasks and steps for setting up a project.",
   },
   {
     id: "/section/files",
     name: "Files",
-    icon: FileText,
+    icon: FileTextIcon,
     description: "Configuration files for various tools and frameworks.",
   },
   {
     id: "/section/dependencies",
     name: "Dependencies",
-    icon: PackageIcon,
+    icon: PackageOpen,
     description: "Commands to install suggested packages and libraries.",
   },
   {
     id: "/section/project-structure",
     name: "Project Structure",
-    icon: FolderTree,
+    icon: FolderTreeIcon,
     description:
       "Recommended directory structures and organization for projects.",
   },
   {
     id: "/section/setups",
     name: "Setups",
-    icon: WrenchIcon,
+    icon: Wrench,
     description: "Quick guides on how to set different, common things up. ",
   },
   {
     id: "/section/functions",
     name: "Utility Functions",
-    icon: SquareFunctionIcon,
+    icon: SquareFunction,
     description:
       "Reusable functions to help with repetitive or common operations.",
   },
   {
     id: "/section/scripts",
     name: "Scripts",
-    icon: ScrollTextIcon,
+    icon: ScrollText,
     description: "Helpful scripts for automation and development tasks.",
   },
   {
     id: "/section/tricks",
     name: "Cool Tricks",
-    icon: StarIcon,
+    icon: Star,
     description:
       "Cool stuff that you can do in your apps. They are mostly gimmicks.",
   },
@@ -97,7 +98,7 @@ export default function Home() {
                   <Link href={{ pathname: section.id }} passHref>
                     <Button className="group w-full" variant="outline">
                       Explore {section.name}
-                      <ArrowRight className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
+                      <ArrowRightIcon className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
                     </Button>
                   </Link>
                 </CardContent>

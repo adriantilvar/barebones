@@ -46,7 +46,7 @@ const ToDoPage = () => {
 
   return (
     <main className="mx-auto flex h-full max-w-2xl flex-col py-8 text-zinc-900">
-      <h1 className="text-2xl font-semibold">Project Starting Checklist</h1>
+      <h1 className="font-semibold text-2xl">Project Starting Checklist</h1>
 
       <ul className="mt-6 space-y-4">
         {tasks.map(({ id, text, isCompleted }) => (
