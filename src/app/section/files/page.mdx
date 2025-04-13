@@ -49,7 +49,16 @@
               "level": "error"
             }
           },
-          "nursery": { "noProcessEnv": "error", "useSortedClasses": "info" },
+          "nursery": {
+            "noProcessEnv": "error",
+            "useSortedClasses": {
+              "level": "info",
+              "fix": "safe",
+              "options": {
+                "functions": ["cn"]
+              }
+            }
+          },
           "style": {
             "useFilenamingConvention": {
               "level": "warn",
