@@ -20,44 +20,37 @@ Next.js supports multiple languages through content localization (i18n) and inte
 
    ```typescript
    /*[caption:middlewares/verify-locale.ts] [showLineNumbers]*/
-   import { NextRequest } from "next/server";
-
+   import "server-only";
+   import type { NextRequest } from "next/server";
+   
    import { match } from "@formatjs/intl-localematcher";
    import Negotiator from "negotiator";
-   import "server-only";
-
+   
    export const SUPPORTED_LOCALES = ["en", "da"];
    export const DEFAULT_LOCALE = "en";
-
+   
    const getLocale = (request: NextRequest) => {
      const languages = new Negotiator({
        headers: {
          "accept-language": request.headers.get("accept-language") ?? "",
        },
      }).languages();
-
+   
      return match(languages, SUPPORTED_LOCALES, DEFAULT_LOCALE);
    };
-
+   
    export const verifyLocale = (request: NextRequest) => {
      const { pathname } = request.nextUrl;
-     const [, firstParam, ...rest] = pathname.split("/");
-
-     const hasLocale = firstParam.length === 2;
-     const hasSupportedLocale =
-       hasLocale && SUPPORTED_LOCALES.includes(firstParam);
-
-     if (hasSupportedLocale) return { needsRedirect: false };
-
-     const trailingUrl = rest.length ? rest.join("/") : "";
-
-     return {
-       needsRedirect: true,
-       redirectPath:
-         firstParam.length && !hasLocale
-           ? `/${getLocale(request)}/${firstParam}/${trailingUrl}`
-           : `/${getLocale(request)}/${trailingUrl}`,
-     };
+     const [locale, ...segments] = pathname.split("/").toSpliced(0, 1);
+     const isLocaleSupported =
+       locale.length === 2 && SUPPORTED_LOCALES.includes(locale);
+   
+     return isLocaleSupported
+       ? { needsRedirect: false, redirectPath: "" }
+       : {
+           needsRedirect: true,
+           redirectPath: `/${getLocale(request)}/${locale}/${segments.join("/")}`,
+         };
    };
    ```
 
@@ -73,7 +66,7 @@ Next.js supports multiple languages through content localization (i18n) and inte
      const { needsRedirect, redirectPath } = verifyLocale(request);
 
      if (needsRedirect) {
-       request.nextUrl.pathname = redirectPath!;
+       request.nextUrl.pathname = redirectPath;
        return NextResponse.redirect(request.nextUrl);
      }
    };
