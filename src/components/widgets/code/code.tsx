@@ -53,11 +53,11 @@ const CodePanel = (props: ComponentProps<"pre">) => {
   return getJsxElement({
     hast: highlightedCode,
     pre: ({ className, ...rest }) => (
-      <div className="relative min-w-2xl rounded-xl border border-zinc-200 bg-zinc-100 p-1 shadow-xs">
+      <div className="not-prose relative min-w-2xl rounded-xl border border-zinc-200 bg-zinc-100 p-1 shadow-xs">
         <Button
           variant="ghost"
           className={cn("absolute top-2 right-2 size-7 p-1 hover:bg-zinc-100", {
-            "top-1 hover:bg-zinc-200/80": metadata?.caption,
+            "hover:bg-zinc-200/80": metadata?.caption,
           })}
           onClick={() => !isShowingCheck && copyToClipboard(code)}
         >
