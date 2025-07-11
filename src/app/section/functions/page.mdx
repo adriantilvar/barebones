@@ -37,6 +37,24 @@
     Array.from({ length }, (_, i) => fillValue || i + 1);
   ```
 
+- Get Element and Index from Array
+
+  Searches through an array and returns the first element that satisfies the given predicate, along with its index. If no match is found, it returns `[null, -1]`.
+
+  ```typescript
+  export const findElement = <T>(
+    array: T[],
+    predicate: (item: T) => boolean
+  ): [T, number] | [null, -1] => {
+    for (let i = 0; i < array.length; i++) {
+      if (predicate(array[i])) {
+        return [array[i], i];
+      }
+    }
+    return [null, -1];
+  };
+  ```
+
 - Compute File Checksum
 
   Computes the checksum of a file using SHA-256.
