@@ -3,17 +3,20 @@
 - VSCode Config
 
     ```json
-  /* [caption:.vscode/settings.json] */
+    /* [caption:.vscode/settings.json] */
     {
       "editor.formatOnSave": true,
       "editor.codeActionsOnSave": {
         "source.fixAll": "always",
+        "source.fixAll.biome": "explicit",
         "source.organizeImports.biome": "explicit"
       },
       "workbench.editor.customLabels.patterns": {
         "**/app/**/page.tsx": "${dirname} (page)",
         "**/app/**/layout.tsx": "${dirname} (layout)"
       },
+      "javascript.preferences.importModuleSpecifierEnding": "auto",
+      "typescript.preferences.importModuleSpecifierEnding": "auto",
       "typescript.tsdk": "node_modules/typescript/lib"
     }
     ```
@@ -23,9 +26,9 @@
     ```json
     /* [caption:biome.json] */
     {
-      "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+      "$schema": "https://biomejs.dev/schemas/2.1.2/schema.json",
       "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
-      "files": { "ignoreUnknown": false, "ignore": ["node_modules"] },
+      "files": { "ignoreUnknown": false, "includes": ["**", "!**/node_modules"] },
       "formatter": {
         "enabled": true,
         "useEditorconfig": true,
@@ -37,20 +40,30 @@
         "attributePosition": "auto",
         "bracketSpacing": true
       },
-      "organizeImports": { "enabled": true },
+      "assist": {
+        "actions": {
+          "source": { "organizeImports": "on", "useSortedAttributes": "on" }
+        }
+      },
       "linter": {
         "enabled": true,
         "rules": {
           "recommended": true,
           "correctness": {
-            "useImportExtensions": "error",
-            "noUnusedImports": "error",
-            "noUnknownFunction": {
-              "level": "error"
+            "noUnusedImports": {
+              "level": "warn",
+              "fix": "safe",
+              "options": {}
             }
           },
+          "suspicious": {
+            "noAlert": "warn"
+          },
           "nursery": {
-            "noProcessEnv": "error",
+            "noMagicNumbers": "warn",
+            "noMisusedPromises": "warn",
+            "noUnassignedVariables": "warn",
+            "useUnifiedTypeSignature": "warn",
             "useSortedClasses": {
               "level": "info",
               "fix": "safe",
@@ -66,7 +79,8 @@
                 "requireAscii": true,
                 "filenameCases": ["kebab-case"]
               }
-            }
+            },
+            "noProcessEnv": "error"
           }
         }
       },
@@ -89,6 +103,7 @@
         }
       }
     }
+
     ```
 
 - Prettier Config
